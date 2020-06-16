@@ -15,5 +15,5 @@ Name[ca@valencia]=Sagora
 Name[ca_ES@valencia]=Sagora
 Name[ca]=Sagora
 Name[es_ES]=Sagora
-Categories=KDE;QT;Audio;Netowrk;
+Categories=KDE;QT;Audio;Network;
 TryExec=/opt/sagora/Sagora
