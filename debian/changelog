@@ -1,7 +1,7 @@
-sagora (1.0.1) focal; urgency=medium
+sagora (1.1-1lliurex) focal; urgency=medium
 
   * First focal release
-  * Pending upgrade to v1.1 as have a bug that breaks execution.
+
 
  -- Juanma1980 <juanma1980@gmail.com>  Thu, 04 Mar 2021 12:50:25 +0100
 

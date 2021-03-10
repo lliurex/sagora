@@ -14,3 +14,15 @@
 #	dh $@ --with zero
 
 	
+override_dh_auto_configure:
+	qmake CONFIG+=noupcasename Sagora.pro
+
+override_dh_auto_build:
+	cd src/res && lrelease *.ts
+	dh_auto_build
+
+
+override_dh_usrlocal:
+	echo $$(pwd)
+	mkdir -p $$(pwd)/debian/sagora/usr/bin/
+	install -D -m 0755 sagora $$(pwd)/debian/sagora/usr/bin/
