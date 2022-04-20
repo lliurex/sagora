@@ -6,6 +6,7 @@
 */
 
 #include "navegador.h"
+#include <QPainterPath>
 
 // Renderiza los botones para minimizar y cerrar el widget actual
 void Navegador::render(QWidget *widgetContext) {
