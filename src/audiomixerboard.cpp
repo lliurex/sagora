@@ -34,6 +34,8 @@ CChannelFader::CChannelFader(QWidget *pNW,
     // QWidget takes the ownership of the pMainGrid so that this only has
     // to be created locally in this constructor)
     pFrame = new QFrame(pNW);
+    //pFrame->setStyleSheet("border:           5px solid white;");
+
 
     pLevelsBox = new QWidget(pFrame);
     plbrChannelLevel = new CMultiColorLEDBar(pLevelsBox);
@@ -66,9 +68,9 @@ CChannelFader::CChannelFader(QWidget *pNW,
     // setup fader tag label (black bold text which is centered)
     plblLabel->setTextFormat(Qt::PlainText);
     plblLabel->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-    plblLabel->setMinimumHeight(40); // maximum hight of the instrument+flag pictures
+    plblLabel->setMinimumHeight(35); // maximum height of the instrument+flag pictures
     plblLabel->setStyleSheet(
-            "QLabel { color: black;"
+            "QLabel { color: white;"
             "         font:  bold; }");
 
     // set margins of the layouts to zero to get maximum space for the controls
@@ -83,8 +85,8 @@ CChannelFader::CChannelFader(QWidget *pNW,
     pLabelGrid->setSpacing(2); // only minimal space between picture and text
 
     // add user controls to the grids
-    pLabelPictGrid->addWidget(plblCountryFlag, 0, Qt::AlignHCenter);
-    pLabelPictGrid->addWidget(plblInstrument, 0, Qt::AlignHCenter);
+    pLabelPictGrid->addWidget(plblCountryFlag, 200, Qt::AlignHCenter);
+    pLabelPictGrid->addWidget(plblInstrument, 200, Qt::AlignHCenter);
 
     pLabelGrid->addLayout(pLabelPictGrid);
     pLabelGrid->addWidget(plblLabel, 0, Qt::AlignVCenter);
@@ -101,6 +103,8 @@ CChannelFader::CChannelFader(QWidget *pNW,
 
     // add fader frame to audio mixer board layout
     pParentLayout->addWidget(pFrame);
+
+
 
     // reset current fader
     Reset();
@@ -140,6 +144,7 @@ CChannelFader::CChannelFader(QWidget *pNW,
     plblCountryFlag->setAccessibleName(tr("Mixer channel country flag"));
 
 
+
     // Connections -------------------------------------------------------------
     QObject::connect(pFader, SIGNAL(valueChanged(int)),
                      this, SLOT(OnLevelValueChanged(int)));
@@ -150,6 +155,11 @@ CChannelFader::CChannelFader(QWidget *pNW,
     QObject::connect(pcbSolo,
                      SIGNAL(stateChanged(int)),
                      SIGNAL(soloStateChanged(int)));
+
+
+
+
+
 }
 
 void CChannelFader::SetGUIDesign(const EGUIDesign eNewDesign) {
@@ -158,16 +168,17 @@ void CChannelFader::SetGUIDesign(const EGUIDesign eNewDesign) {
             // fader
             pFader->setStyleSheet(
                     "QSlider { width:         45px;"
-                    "          border-image:  url(:/png/fader/res/ui/faderbackground.png) repeat;"
+                    "          border-image:  url(:/png/main/res/ui-2021/clientdialog/raya_fader_azul.png) repeat;"
                     "          border-top:    10px transparent;"
                     "          border-bottom: 10px transparent;"
                     "          border-left:   20px transparent;"
                     "          border-right:  -25px transparent; }"
                     "QSlider::groove { image:          url();"
+
                     "                  padding-left:   -38px;"
                     "                  padding-top:    -10px;"
-                    "                  padding-bottom: -15px; }"
-                    "QSlider::handle { image: url(:/png/fader/res/ui/fader.png); }");
+                    "                  padding-bottom: -7px; }"
+                    "QSlider::handle { image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png); }");
 
             pcbMute->setText(tr("MUTE"));
             pcbMute->setStyleSheet(
@@ -245,7 +256,7 @@ void CChannelFader::SetGUIDesign(const EGUIDesign eNewDesign) {
             pFader->setStyleSheet("");
             pcbMute->setText(tr("Mute"));
             pcbSolo->setText(tr("Solo"));
-            plbrChannelLevel->SetLevelMeterType(CMultiColorLEDBar::MT_BAR);
+            plbrChannelLevel->SetLevelMeterType(CMultiColorLEDBar::MT_LED);
             break;
     }
 }
@@ -262,11 +273,12 @@ void CChannelFader::SetupFaderTag(const ESkillLevel eSkillLevel) {
     // setup group box for label/instrument picture: set a thick black border
     // with nice round edges
     QString strStile =
-            "QGroupBox { border:           2px solid black;"
+            "QGroupBox { border:           1px solid white;"
             "            border-radius:    4px;"
-            "            padding:          3px;";
+            "            padding:          10px;}";
 
     // the background color depends on the skill level
+   /*
     switch (eSkillLevel) {
         case SL_BEGINNER:
             strStile += QString("background-color: rgb(%1, %2, %3); }").
@@ -296,7 +308,7 @@ void CChannelFader::SetupFaderTag(const ESkillLevel eSkillLevel) {
                     arg(RGBCOL_B_SL_NOT_SET);
             break;
     }
-
+*/
     pLabelInstBox->setStyleSheet(strStile);
 }
 
@@ -306,6 +318,9 @@ void CChannelFader::Reset() {
 
     // reset mute/solo check boxes and level meter
     pcbMute->setChecked(true);
+    //Muteo el canal para evitar feedback al principio
+    CChannelFader::SetMute(true);
+
     pcbSolo->setChecked(false);
     plbrChannelLevel->setValue(0);
 
@@ -363,10 +378,14 @@ void CChannelFader::SendFaderLevelToServer(const int iLevel) {
 
 void CChannelFader::OnMuteStateChanged(int value) {
     // call muting function
+
     SetMute(static_cast<Qt::CheckState> ( value ) == Qt::Checked);
+
 }
 
 void CChannelFader::SetMute(const bool bState) {
+
+
     if (bState) {
         // mute channel -> send gain of 0
         emit gainValueChanged(0);
@@ -553,6 +572,9 @@ CAudioMixerBoard::CAudioMixerBoard(QWidget *parent, Qt::WindowFlags) :
         strServerName("") {
     // add group box and hboxlayout
     pGroupBox = new QGroupBox(); // will be added to the scroll area which is then the parent
+
+    pGroupBox->setStyleSheet("border:           1px solid rgb(0,0,0,0.2);");
+
     pMainLayout = new QHBoxLayout(pGroupBox);
 
     // set title text (default: no server given)
@@ -715,11 +737,12 @@ inline void CAudioMixerBoard::connectFaderSignalsToMixerBoardSlots<0>() {};
 
 void CAudioMixerBoard::SetServerName(const QString &strNewServerName) {
     // store the current server name
+
     strServerName = strNewServerName;
 
     if (strServerName.isEmpty()) {
         // no connection or connection was reset: show default title
-        pGroupBox->setTitle("Server");
+        pGroupBox->setTitle("");
     } else {
         // Do not set the server name directly but first show a label which indicates
         // that we are trying to connect the server. First if a connected client
@@ -729,6 +752,7 @@ void CAudioMixerBoard::SetServerName(const QString &strNewServerName) {
         pGroupBox->setTitle(
                 u8"\u2588\u2588\u2588\u2588\u2588  T R Y I N G   T O   C O N N E C T  \u2588\u2588\u2588\u2588\u2588");
     }
+
 }
 
 void CAudioMixerBoard::SetGUIDesign(const EGUIDesign eNewDesign) {
@@ -773,7 +797,8 @@ void CAudioMixerBoard::ApplyNewConClientList(CVector<CChannelInfo> &vecChanInfo)
     // we want to set the server name only if the very first faders appear
     // in the audio mixer board to show a "try to connect" before
     if (pGroupBox->title().compare(strServerName)) {
-        pGroupBox->setTitle(strServerName);
+        //pGroupBox->setTitle(strServerName);
+        pGroupBox->setTitle("");
     }
 
     // get number of connected clients

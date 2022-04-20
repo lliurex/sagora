@@ -40,9 +40,11 @@
 #include "audiomixerboard.h"
 #include "clientsettingsdlg.h"
 #include "chatdlg.h"
+#include "efectosdlg.h"
 #include "connectdlg.h"
 #include "analyzerconsole.h"
 #include "ui_clientdlgbase.h"
+#include "ui_efectosdlg.h"
 #include "serverlist.h"
 #include "navegador.h"
 
@@ -104,6 +106,7 @@ protected:
 
     CClient*           pClient;
     CSettings*         pSettings;
+    Ui_efectosdlg*     effects;
     bool               bConnected;
     bool               bConnectDlgWasShown;
     QTimer             TimerSigMet;
@@ -120,6 +123,7 @@ protected:
     QMenu*             pCountryFlagPopupMenu;
 
     CClientSettingsDlg ClientSettingsDlg;
+    CClienteffectsdlg  ClientEffectsDlg;
     CChatDlg           ChatDlg;
     CConnectDlg        ConnectDlg;
     CAnalyzerConsole   AnalyzerConsole;
@@ -130,9 +134,17 @@ protected:
     QString            PassByServer;
 
 public slots:
+    void showMenu(int value);
     void OnAboutToQuit() { pSettings->Save(); }
     void ShowPerfilSlot(int value){ShowPerfil(value);}
     void OnConnectDisconBut();
+
+    //Record Client Button Slot
+    void OnRecordAudioClient();
+
+    //Effects
+    void OnEffectsStateChanged ();
+
     void OnTimerSigMet();
     void OnTimerBuffersLED();
     void ShowAnalyzerConsoleSlot(){ShowAnalyzerConsole();}

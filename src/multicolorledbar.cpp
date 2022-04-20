@@ -185,11 +185,11 @@ void CMultiColorLEDBar::setValue ( const double dValue )
 }
 
 CMultiColorLEDBar::cLED::cLED ( QWidget* parent ) :
-    BitmCubeRoundDisabled ( QString::fromUtf8 ( ":/png/LEDs/res/CLEDDisabledSmall.png" ) ),
-    BitmCubeRoundGrey     ( QString::fromUtf8 ( ":/png/LEDs/res/HLEDGreySmall.png" ) ),
-    BitmCubeRoundGreen    ( QString::fromUtf8 ( ":/png/LEDs/res/HLEDGreenSmall.png" ) ),
-    BitmCubeRoundYellow   ( QString::fromUtf8 ( ":/png/LEDs/res/HLEDYellowSmall.png" ) ),
-    BitmCubeRoundRed      ( QString::fromUtf8 ( ":/png/LEDs/res/HLEDRedSmall.png" ) )
+    BitmCubeRoundDisabled ( QString::fromUtf8 ( ":/png/main/res/ui-2021/clientdialog/led_gris.png" ) ),
+    BitmCubeRoundGrey     ( QString::fromUtf8 ( ":/png/main/res/ui-2021/clientdialog/led_gris.png" ) ),
+    BitmCubeRoundGreen    ( QString::fromUtf8 ( ":/png/main/res/ui-2021/clientdialog/led_verde.png" ) ),
+    BitmCubeRoundYellow   ( QString::fromUtf8 ( ":/png/main/res/ui-2021/clientdialog/led_amarillo.png" ) ),
+    BitmCubeRoundRed      ( QString::fromUtf8 ( ":/png/main/res/ui-2021/clientdialog/led_rosa.png" ) )
 {
     // create LED label
     pLEDLabel = new QLabel ( "", parent );

@@ -24,6 +24,19 @@
 
 #pragma once
 
+#ifdef _WIN32
+# include <winsock2.h>
+# include <ws2ipdef.h>
+# include <windows.h>
+# include <mmsystem.h>
+#elif defined ( __APPLE__ ) || defined ( __MACOSX )
+# include <mach/mach.h>
+# include <mach/mach_error.h>
+# include <mach/mach_time.h>
+#else
+# include <sys/time.h>
+#endif
+
 #include <QTcpSocket>
 #include <QHostAddress>
 #include <QHostInfo>
@@ -45,21 +58,10 @@
 #include <vector>
 #include <algorithm>
 #include "global.h"
-using namespace std; // because of the library: "vector"
-#ifdef _WIN32
-# include <winsock2.h>
-# include <ws2ipdef.h>
-# include <windows.h>
-# include <mmsystem.h>
-#elif defined ( __APPLE__ ) || defined ( __MACOSX )
-# include <mach/mach.h>
-# include <mach/mach_error.h>
-# include <mach/mach_time.h>
-#else
-# include <sys/time.h>
-#endif
+
 #include "ui_aboutdlgbase.h"
 
+using namespace std; // because of the library: "vector"
 
 class CClient;  // forward declaration of CClient
 

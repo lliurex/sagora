@@ -53,8 +53,8 @@ CJamClient::CJamClient(const qint64 frame, const int _numChannels, const QString
     {
         affix = affix.length() == 0 ? "_1" : "_" + QString::number(affix.remove(0, 1).toInt() + 1);
     }
-    fileName = fileName + affix + ".wav";
-
+    //fileName = fileName + affix + ".wav";
+    fileName = fileName + affix;
 
     wavFile = new QFile(recordBaseDir.absoluteFilePath(fileName));
 

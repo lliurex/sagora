@@ -39,9 +39,9 @@ CConnectDlg::CConnectDlg ( const bool bNewShowCompleteRegList,
       bServerListReceived      ( false ),
       bServerListItemWasChosen ( false ),
       bListFilterWasActive     ( false ),
-      bShowAllMusicians        ( true )
-{
-    setupUi ( this );
+      bShowAllMusicians        ( true ),navegador(new Navegador) {
+    setupUi(this);
+    navegador->render(this);
 
 
         //Esta funcion lee el archivo de servidores que se cargo con la info de la API de Servidores Centrales
@@ -142,10 +142,10 @@ CConnectDlg::CConnectDlg ( const bool bNewShowCompleteRegList,
     lvwServers->setColumnWidth ( 1, 130 );
     lvwServers->setColumnWidth ( 2, 100 );
 #else
-    lvwServers->setColumnWidth ( 0, 180 );
-    lvwServers->setColumnWidth ( 1, 75 );
-    lvwServers->setColumnWidth ( 2, 70 );
-    lvwServers->setColumnWidth ( 3, 220 );
+    lvwServers->setColumnWidth ( 0, 316);
+    lvwServers->setColumnWidth ( 1, 0);
+    lvwServers->setColumnWidth ( 2, 316 );
+    lvwServers->setColumnWidth ( 3, 0 );
 #endif
 
 //    lvwServers->setStyleSheet("QHeaderView::section { background-color: transparent; }");
@@ -215,8 +215,8 @@ CConnectDlg::CConnectDlg ( const bool bNewShowCompleteRegList,
         this, SLOT ( OnExpandAllStateChanged ( int ) ) );
 
     // buttons
-    QObject::connect ( butCancel, SIGNAL ( clicked() ),
-        this, SLOT ( close() ) );
+    //QObject::connect ( butCancel, SIGNAL ( clicked() ),
+      //  this, SLOT ( close() ) );
 
     QObject::connect ( butConnect, SIGNAL ( clicked() ),
         this, SLOT ( OnConnectClicked() ) );
@@ -250,7 +250,8 @@ void CConnectDlg::Init ( const CVector<QString>& vstrIPAddresses )
     QString pass = "";
     QString salaServer = cbxServerAddr->currentText();
     QString inicioPass = "Ingrese el Password";
-    QString inicioSalaServer = "Seleccione una sala o ingrese una IP";
+    //QString inicioSalaServer = "Seleccione una sala o ingrese una IP";
+    QString inicioSalaServer = "";
     if((pass != inicioPass ) && (salaServer != inicioSalaServer)){
         passSala->setWhatsThis(inicioPass);
         cbxServerAddr->setCurrentText(inicioSalaServer);

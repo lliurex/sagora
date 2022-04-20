@@ -25,6 +25,12 @@ public:
     bool isPantallaInicio;
     bool isPantallaServer;
     bool isPantallaCliente;
+    bool isPantallaConfiguracionCliente;
+    bool isPantallaNotifications;
+    bool isPantallaChat;
+    bool isPantallaEfectos;
+    bool isPantallaPerfil;
+    bool isPantallaConnect;
 
     void render(QWidget *window);
     void renderizarBotones();

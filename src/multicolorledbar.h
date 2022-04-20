@@ -36,9 +36,9 @@
 
 /* Definitions ****************************************************************/
 // defines for LED level meter CMultiColorLEDBar
-#define NUM_STEPS_LED_BAR                8
-#define RED_BOUND_LED_BAR                7
-#define YELLOW_BOUND_LED_BAR             5
+#define NUM_STEPS_LED_BAR                25
+#define RED_BOUND_LED_BAR                22
+#define YELLOW_BOUND_LED_BAR             20
 
 
 /* Classes ********************************************************************/

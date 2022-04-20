@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>465</width>
+    <width>669</width>
     <height>494</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Connection Setup</string>
+   <string>Configuración de conexión</string>
   </property>
   <property name="windowIcon">
    <iconset resource="resources.qrc">
@@ -19,7 +19,8 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#CConnectDlgBase{
-border-image:  url(:/png/main/res/ui/bg_fondos.png);
+
+	border-image: url(:/png/main/res/ui-2021/connectdialog/fondo.png);
 }
 
 </string>
@@ -28,20 +29,28 @@ border-image:  url(:/png/main/res/ui/bg_fondos.png);
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout">
+   <property name="topMargin">
+    <number>40</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QLabel" name="lblServerCentralAddr">
        <property name="font">
         <font>
-         <family>Noto Sans</family>
+         <family>Montserrat Medium</family>
+         <pointsize>8</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color:transparent;
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color:transparent;
 border-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);</string>
        </property>
@@ -59,10 +68,15 @@ color: rgb(255, 255, 255);</string>
      <item>
       <widget class="QComboBox" name="cbxCentServAddrType">
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-</string>
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
        </property>
       </widget>
      </item>
@@ -74,16 +88,21 @@ color: rgb(255, 255, 255);
       <widget class="QLabel" name="lblServerAddr">
        <property name="font">
         <font>
-         <family>Noto Sans</family>
+         <family>Montserrat Medium</family>
+         <pointsize>8</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color:transparent;
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color:transparent;
 border-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);</string>
        </property>
        <property name="text">
-        <string>Sala Name/Address</string>
+        <string>Nombre de sala</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -93,10 +112,20 @@ color: rgb(255, 255, 255);</string>
      <item>
       <widget class="QComboBox" name="cbxServerAddr">
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-</string>
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;
+
+QComboBox::down-arrow
+{
+	color: rgb(0,0,0,0);
+}</string>
        </property>
        <property name="editable">
         <bool>true</bool>
@@ -114,17 +143,22 @@ color: rgb(255, 255, 255);
       <widget class="QLabel" name="titlePass">
        <property name="font">
         <font>
-         <family>Noto Sans</family>
+         <family>Montserrat Medium</family>
+         <pointsize>8</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color:transparent;
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color:transparent;
 border-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);
 </string>
        </property>
        <property name="text">
-        <string>Password Sala</string>
+        <string>Contraseña de sala</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -151,6 +185,17 @@ color: rgb(255, 255, 255);
        <property name="autoFillBackground">
         <bool>false</bool>
        </property>
+       <property name="styleSheet">
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+       </property>
        <property name="frame">
         <bool>true</bool>
        </property>
@@ -173,27 +218,35 @@ color: rgb(255, 255, 255);
       <widget class="QLabel" name="lblFilter">
        <property name="font">
         <font>
-         <family>Noto Sans</family>
+         <family>Montserrat Medium</family>
+         <pointsize>8</pointsize>
+         <weight>7</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
 color: rgb(255, 255, 255);
 </string>
        </property>
        <property name="text">
-        <string>Filter</string>
+        <string>Buscador de salas</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLineEdit" name="edtFilter">
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-</string>
+        <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
        </property>
       </widget>
      </item>
@@ -218,6 +271,20 @@ color: rgb(255, 255, 255);
     </layout>
    </item>
    <item>
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+     </property>
+     <property name="text">
+      <string>Seleccione una sala de la lista y luego ingrese la contraseña</string>
+     </property>
+     <property name="margin">
+      <number>10</number>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QTreeWidget" name="lvwServers">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -232,18 +299,24 @@ color: rgb(255, 255, 255);
      </property>
      <property name="styleSheet">
       <string notr="true">QTreeWidget{
-border-color: rgb(255, 255, 255);
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
 color: white;
 background:transparent;
 }
 
 QTreeView::item {
 font-color: white;
+background-color:transparent;
 }
 
 QHeaderView::section {
-    background-color: transparent;                                                  
-    color: black;                               
+background-color:rgb(186, 42, 86);  
+	font: 57 8pt &quot;Montserrat Medium&quot;;                                             
+    color: white;                               
     padding: 1px;                               
     height:20px;                                
     border: 1px solid rgb(120,120,120);                  
@@ -290,27 +363,6 @@ QHeaderView::section {
       <property name="text">
        <string>Ping Time</string>
       </property>
-      <property name="font">
-       <font>
-        <family>Noto Sans</family>
-       </font>
-      </property>
-      <property name="background">
-       <color alpha="5">
-        <red>5</red>
-        <green>5</green>
-        <blue>5</blue>
-       </color>
-      </property>
-      <property name="foreground">
-       <brush brushstyle="SolidPattern">
-        <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>0</blue>
-        </color>
-       </brush>
-      </property>
      </column>
      <column>
       <property name="text">
@@ -341,87 +393,28 @@ QHeaderView::section {
        </brush>
       </property>
      </column>
-     <column>
-      <property name="text">
-       <string>Location</string>
-      </property>
-      <property name="font">
-       <font>
-        <family>Noto Sans</family>
-       </font>
-      </property>
-      <property name="textAlignment">
-       <set>AlignTrailing|AlignTop</set>
-      </property>
-      <property name="background">
-       <color>
-        <red>5</red>
-        <green>5</green>
-        <blue>5</blue>
-       </color>
-      </property>
-      <property name="foreground">
-       <brush brushstyle="NoBrush">
-        <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>0</blue>
-        </color>
-       </brush>
-      </property>
-     </column>
     </widget>
    </item>
    <item>
     <layout class="QHBoxLayout">
-     <item>
-      <widget class="QPushButton" name="butCancel">
-       <property name="minimumSize">
-        <size>
-         <width>220</width>
-         <height>23</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">#butCancel{
-background: rgb(28, 28, 28); 
-selection-background-color: rgb(28, 28, 28);
-border-color: rgb(120, 120, 120);
-    border-style: outset;
-    border-width: 1.3px;
-color: rgb(120, 120, 120);
-}
-#butCancel:hover{
-border-color: rgb(13, 204, 135);
-    border-style: outset;
-    border-width: 1.3px;
-color: rgb(13, 204, 135);
-}
-
-
-#butCancel:pressed{
-background: rgb(15, 15, 15); 
-border-color: rgb(13, 204, 135);
-    border-style: outset;
-    border-width: 1.3px;
-}</string>
-       </property>
-       <property name="text">
-        <string>C&amp;ancel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
+     <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
       <widget class="QPushButton" name="butConnect">
        <property name="minimumSize">
         <size>
-         <width>220</width>
-         <height>23</height>
+         <width>180</width>
+         <height>45</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>649</width>
+         <height>16777215</height>
         </size>
        </property>
        <property name="styleSheet">
         <string notr="true">#butConnect{
 background: rgb(28, 28, 28); 
+	border-image: url(:/png/main/res/ui-2021/connectdialog/boton_sala_conectar_gris.png);
 selection-background-color: rgb(28, 28, 28);
 border-color: rgb(120, 120, 120);
     border-style: outset;
@@ -429,6 +422,7 @@ border-color: rgb(120, 120, 120);
 color: rgb(120, 120, 120);
 }
 #butConnect:hover{
+	border-image: url(:/png/main/res/ui-2021/connectdialog/boton_sala_conectar_rosa.png);
 border-color: rgb(13, 204, 135);
     border-style: outset;
     border-width: 1.3px;
@@ -437,6 +431,7 @@ color: rgb(13, 204, 135);
 
 
 #butConnect:pressed{
+	border-image: url(:/png/main/res/ui-2021/connectdialog/boton_sala_conectar_verde.png);
 background: rgb(15, 15, 15); 
 border-color: rgb(13, 204, 135);
     border-style: outset;
@@ -444,7 +439,7 @@ border-color: rgb(13, 204, 135);
 }</string>
        </property>
        <property name="text">
-        <string>&amp;Connect</string>
+        <string/>
        </property>
        <property name="default">
         <bool>true</bool>

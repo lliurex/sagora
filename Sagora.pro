@@ -8,14 +8,14 @@ contains(CONFIG, "noupcasename") {
 
 CONFIG += qt \
     thread \
-    release
+    release \
 
 QT += widgets \
         xml \
         qml \
         quick \
         webview \
-        concurrent
+        concurrent \
 
 #TRANSLATIONS = src/res/translation_de_DE.ts \
 #    src/res/translation_fr_FR.ts
@@ -35,6 +35,7 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\" \
     _REENTRANT
 
 win32 {
+    # QMAKE_CXXFLAGS += /showIncludes
     DEFINES -= UNICODE # fixes issue with ASIO SDK (asiolist.cpp is not unicode compatible)
     DEFINES += NOMINMAX # solves a compiler error in qdatetime.h (Qt5)
     HEADERS += windows/sound.h
@@ -180,7 +181,10 @@ RESOURCES += src/resources.qrc \
     src/qml.qrc
 
 FORMS += src/clientdlgbase.ui \
+    src/descargasdlg.ui \
+    src/efectosdlg.ui \
     src/initialprogram.ui \
+    src/notificaciones.ui \
     src/perfil.ui \
     src/serverdlgbase.ui \
     src/clientsettingsdlgbase.ui \
@@ -195,10 +199,13 @@ HEADERS += src/audiomixerboard.h \
     src/client.h \
     src/clientsettingsdlg.h \
     src/connectdlg.h \
+    src/descargasdlg.h \
+    src/efectosdlg.h \
     src/global.h \
     src/clientdlg.h \
     src/initialprogram.h \
     src/navegador.h \
+    src/notificaciones.h \
     src/serverdlg.h \
     src/multicolorled.h \
     src/multicolorledbar.h \
@@ -320,8 +327,11 @@ SOURCES += src/audiomixerboard.cpp \
     src/clientsettingsdlg.cpp \
     src/connectdlg.cpp \
     src/clientdlg.cpp \
+    src/descargasdlg.cpp \
+    src/efectosdlg.cpp \
     src/initialprogram.cpp \
     src/navegador.cpp \
+    src/notificaciones.cpp \
     src/serverdlg.cpp \
     src/main.cpp \
     src/multicolorled.cpp \
@@ -527,6 +537,7 @@ DISTFILES += ChangeLog \
     src/res/ledbuttonpressed.png \
     src/res/fronticon.png \
     src/res/logopicture.png \
+    src/res/mainicon.ico \
     src/res/mainicon.png \
     src/res/mixerboardbackground.png \
     src/res/VLEDBlack.png \
@@ -833,7 +844,16 @@ DISTFILES += ChangeLog \
     src/res/new/button_off.png \
     src/res/new/close.png \
     src/res/new/logo.png \
-    src/res/new/minimize.png
+    src/res/new/minimize.png \
+    src/res/ui-2021/pantallainicio/BOTON CREAR SALA Prueba1.png \
+    src/res/ui-2021/pantallainicio/BOTON CREAR SALA Prueba1.png \
+    src/res/ui-2021/pantallainicio/BOTON UNIRSE Prueba1.png \
+    src/res/ui-2021/pantallainicio/BOTON UNIRSE Prueba1.png \
+    src/res/ui-2021/pantallainicio/FONDO.png \
+    src/res/ui-2021/pantallainicio/LOGOPrueba1.png \
+    src/res/ui-2021/pantallainicio/boton_crear.png \
+    src/res/ui-2021/pantallainicio/boton_unirse.png \
+    windows/favicon.ico
 
 DISTFILES_OPUS += libs/opus/AUTHORS \
     libs/opus/ChangeLog \

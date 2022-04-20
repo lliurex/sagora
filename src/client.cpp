@@ -23,7 +23,45 @@
 \******************************************************************************/
 
 #include "client.h"
+#include <QDir>
+#include <QDateTime>
+#include <QFileDialog>
 
+
+//////////////////////////////////////////////////////////////////////
+//delayLine
+
+#define  MAX_DELAY_SECONDS  (10)
+#define  DELAY_LINE_SIZE    (128 * MAX_DELAY_SECONDS)
+
+
+volatile float delay_line[DELAY_LINE_SIZE];
+
+
+// length of delay in seconds
+float    delay_len_seconds = 7.0;
+
+// length of delay in samples
+uint32_t  delay_len_samples = (uint32_t) delay_len_seconds * 128;
+
+
+
+
+uint32_t    delay_line_index = 0;
+
+
+/*
+ * Place any initialization code here for the audio processing
+ */
+void processaudio_setup( void ) {
+    int i;
+    //qDebug() << "Delay Setup";
+    // zero delay lines used for echo effect
+    for (i=0;i<DELAY_LINE_SIZE;i++) {
+        delay_line[i] = 0.0;
+    }
+}
+////////////////////////////////////////////////////////////////////
 
 /* Implementation *************************************************************/
 CClient::CClient ( const quint16  iPortNumber,
@@ -31,6 +69,7 @@ CClient::CClient ( const quint16  iPortNumber,
                    const int      iCtrlMIDIChannel,
                    const bool     bNoAutoJackConnect,
                    const QString& strNClientName ) :
+
     vstrIPAddress                    ( MAX_NUM_SERVER_ADDR_ITEMS, "" ),
     ChannelInfo                      (),
     vecStoredFaderTags               ( MAX_NUM_STORED_FADER_SETTINGS, "" ),
@@ -49,6 +88,25 @@ CClient::CClient ( const quint16  iPortNumber,
     bWindowWasShownChat              ( false ),
     bWindowWasShownProfile           ( false ),
     bWindowWasShownConnect           ( false ),
+
+    recordAudioClient                ( false ),
+    createFolderRecordAudioClient    ( false ),
+    createFileRecordAudioClient      ( false ),
+    sizeAudio                        ( 0 ),
+
+    TremoloActivate                  ( false ),
+    TremoloRate                      (95),
+    TremoloDepth                     (95),
+
+    RingActivate                     ( false ),
+    RingRate                         (95),
+    RingBlend                        (95),
+
+    DelayActivate                    ( false ),
+    DelayWet                         (95),
+    DelayDry                         (50),
+    DelayFeedback                    (50),
+
     Channel                          ( false ), /* we need a client channel -> "false" */
     CurOpusEncoder                   ( nullptr ),
     CurOpusDecoder                   ( nullptr ),
@@ -79,8 +137,12 @@ CClient::CClient ( const quint16  iPortNumber,
     strCentralServerAddress          ( "" ),
     eCentralServerAddressType        ( AT_DEFAULT ),
     iServerSockBufNumFrames          ( DEF_NET_BUF_SIZE_NUM_BL )
+
+
 {
     int iOpusError;
+
+
 
     OpusMode = opus_custom_mode_create ( SYSTEM_SAMPLE_RATE_HZ,
                                          DOUBLE_SYSTEM_FRAME_SIZE_SAMPLES,
@@ -912,17 +974,21 @@ void CClient::ProcessSndCrdAudioData ( CVector<int16_t>& vecsMultChanAudioSndCrd
 // can then be used for Mac as well without the need of changing anything in the actual Mac sound interface.
 // Since a multichannel signal arrives and must be converted to a stereo signal, we need an additional buffer: vecsStereoSndCrdTMP.
 // TEST input channel selection/mixing
-//const int iNumInCh = 2;
-//for ( int i = 0; i < iNumInCh; i++ )
-//{
-//    for ( int j = 0; j < iMonoBlockSizeSam; j++ )
-//    {
-//        vecsStereoSndCrdTMP[2 * j + i] = vecsMultChanAudioSndCrd[iNumInCh * j + i];
-//    }
-//}
+/*
+const int iNumInCh = 2;
+for ( int i = 0; i < iNumInCh; i++ )
+{
+    for ( int j = 0; j < iMonoBlockSizeSam; j++ )
+    {
+        vecsStereoSndCrdTMP[2 * j + i] = vecsMultChanAudioSndCrd[iNumInCh * j + i];
+    }
+}
+
+*/
+
+    vecsStereoSndCrdTMP = vecsMultChanAudioSndCrd; // TEST just copy the stereo data for now
 
 
-vecsStereoSndCrdTMP = vecsMultChanAudioSndCrd; // TEST just copy the stereo data for now
 
     // check if a conversion buffer is required or not
     if ( bSndCrdConversionBufferRequired )
@@ -1100,6 +1166,31 @@ void CClient::ProcessAudioDataIntern ( CVector<int16_t>& vecsStereoSndCrd )
         }
     }
 
+    //////////////////////////////////////////////////
+        //Efectos implementados
+
+        if(TremoloActivate)
+        {
+            tremolo(iMonoBlockSizeSam, vecsStereoSndCrd);
+        }
+
+        if(RingActivate)
+        {
+            ringModulator(iMonoBlockSizeSam, vecsStereoSndCrd);
+        }
+
+        if(DelayActivate)
+        {
+            delayLine(iMonoBlockSizeSam, vecsStereoSndCrd);
+        }
+
+     //////////////////////////////////////////////////
+
+
+
+
+
+
     for ( i = 0; i < iSndCrdFrameSizeFactor; i++ )
     {
         // OPUS encoding
@@ -1132,6 +1223,7 @@ void CClient::ProcessAudioDataIntern ( CVector<int16_t>& vecsStereoSndCrd )
 
     // Receive signal ----------------------------------------------------------
     // in case of mute stream, store local data
+
     if ( bMuteOutStream )
     {
         vecsStereoSndCrdMuteStream = vecsStereoSndCrd;
@@ -1171,10 +1263,11 @@ void CClient::ProcessAudioDataIntern ( CVector<int16_t>& vecsStereoSndCrd )
         }
     }
 
+
 /*
 // TEST
 // fid=fopen('c:\\temp\test2.dat','r');x=fread(fid,'int16');fclose(fid);
-static FILE* pFileDelay = fopen("c:\\temp\\test2.dat", "wb");
+static FILE* pFileDelay = fopen("test2.dat", "wb");
 short sData[2];
 for (i = 0; i < iMonoBlockSizeSam; i++)
 {
@@ -1183,6 +1276,95 @@ for (i = 0; i < iMonoBlockSizeSam; i++)
 }
 fflush(pFileDelay);
 */
+static FILE* pFileDelay;
+QFile filewav;
+    if(recordAudioClient)
+    {
+
+
+        QDateTime UTC(QDateTime::currentDateTimeUtc());
+        QDateTime local(UTC.toLocalTime());
+
+
+        QString saveFolder = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+
+
+        if (createFolderRecordAudioClient == 0)
+        {
+
+            QDir userdir(saveFolder+"/grabacionesClienteSagora");
+
+
+            //qDebug() << userdir.path();
+
+            if (!userdir.exists())
+            {
+                if(userdir.mkdir(saveFolder+"/grabacionesClienteSagora"))
+                {
+                    qDebug() << "se creo la carpeta";
+                    createFolderRecordAudioClient = 1;
+                }
+            }else
+            {
+                createFolderRecordAudioClient = 0;
+            }
+            //qDebug() << "carpeta creada en:" << userdir << local.toString("dd-mm-yy-hh:mm:ss");
+        }
+
+        if(createFileRecordAudioClient == 0)
+        {
+            QFile filewav(saveFolder+"/grabacionesClienteSagora/Grabacion-"+local.toString("dd-mm-yy-hhmmss"));
+
+
+            pFileDelay = fopen(filewav.encodeName(filewav.fileName()), "wb");
+
+
+            createFileRecordAudioClient = 1;
+        }
+
+
+        ///////////////////////////////////////////////////////////////
+        ///GRABACION del buffer al archivo
+        short sData[2];
+        for (i = 0; i < iMonoBlockSizeSam; i++)
+            {
+                sData[0] = (short) vecsStereoSndCrd[i];
+                fwrite(&sData, size_t(2), size_t(1), pFileDelay);
+                sData[0] = (short) vecsStereoSndCrd[i];
+                fwrite(&sData, size_t(2), size_t(1), pFileDelay);
+            }
+        fflush(pFileDelay);
+
+        sizeAudio += iMonoBlockSizeSam;
+        //fclose(pFileDelay);
+        /////////////////////////////////////////////////////////////////
+
+
+
+    }else
+    {
+        if(createFileRecordAudioClient)
+        {
+            fseek(pFileDelay, 0, SEEK_SET);
+            /*###########################################################*/
+
+                wav_hdr wav;
+                wav.ChunkSize = sizeAudio*2 + sizeof(wav_hdr) - 8;
+                wav.Subchunk2Size = sizeAudio*2 + sizeof(wav_hdr) - 44;
+                fwrite(&wav, size_t(&wav), size_t(1), pFileDelay);
+
+            /*###########################################################*/
+
+                sizeAudio = 0;
+
+            fclose(pFileDelay);
+
+        }
+
+        createFolderRecordAudioClient = 0;
+        createFileRecordAudioClient = 0;
+    }
+
 
 
     // for muted stream we have to add our local data here
@@ -1214,6 +1396,8 @@ fflush(pFileDelay);
         // if not connected, clear data
         vecsStereoSndCrd.Reset ( 0 );
     }
+
+
 
     // update socket buffer size
     Channel.UpdateSocketBufferSize();
@@ -1276,4 +1460,113 @@ int CClient::EstimatedOverallDelay ( const int iPingTimeMs )
         dAdditionalAudioCodecDelayMs;
 
     return MathUtils::round ( dTotalBufferDelayMs + iPingTimeMs );
+}
+
+
+//////////////////////////////////////////////////////////////////////
+//TREMOLO
+//
+//Implementado de: https://wiki.analog.com/resources/tools-software/sharc-audio-module/baremetal/tremelo-effect-tutorial
+//
+void CClient::tremolo ( int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd)
+{
+
+
+
+        float tremolo_rate = TremoloRate/100;  // the rate of our tremolo (0.0 to 1.0)
+        float tremolo_depth = TremoloDepth/100; // the depth of our tremolo (0.0 to 1.0)
+        static float t = 0.0;     // current value of t for sine calculations
+
+        // Otherwise, perform our C-based block processing here!
+        for (int i=0;i<AUDIO_BLOCK_SIZE;i++) {
+
+            // Calculate our modulation factor for this sample
+            float trem_factor = 1.0 - (tremolo_depth*(0.5*sinf(t)+0.5));
+
+            // Update t based on rate and a scalar that gets maps our rate roughly between 1Hz and about 20Hz
+            t += (tremolo_rate * 0.002);
+
+            // Wrap t if necessary
+            if (t > 6.28318531) t -= 6.28318531;
+
+            // Multiply each incoming sample by our amplitude modulation value for this sample
+            vecsStereoSndCrd[i]  = trem_factor * vecsStereoSndCrd[i];
+
+        }
+}
+
+//////////////////////////////////////////////////////////////////////
+//RING MODULATOR
+//
+//Implementado de: https://wiki.analog.com/resources/tools-software/sharc-audio-module/baremetal/ring-modulator-effect-tutorial
+//
+void CClient::ringModulator(int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd)
+{
+
+
+
+        float ringmod_rate = RingRate/100;  // the rate of our ring modulator (0.0 to 1.0)
+        float ringmod_blend = RingBlend/100; // the blend or mix of our modulator (0.0 to 1.0)
+        static float t = 0.0;     // current value of t for sine calculations
+
+        // Otherwise, perform our C-based block processing here!
+        for (int i=0;i<AUDIO_BLOCK_SIZE;i++) {
+
+            // Calculate our modulation factor for this sample
+            float ring_factor = sinf(t);
+
+            // Update t based on rate and a scalar to map into a nice range
+            t += (ringmod_rate * 0.02);
+
+            // Wrap t if necessary
+            if (t > 6.28318531) t -= 6.28318531;
+
+            // Multiply each incoming sample by our amplitude modulation value for this sample
+            vecsStereoSndCrd[i]  = (1.0-ringmod_blend)*vecsStereoSndCrd[i] + ringmod_blend*ring_factor*vecsStereoSndCrd[i];
+
+        }
+}
+//////////////////////////////////////////////////////////////////////
+//DELAY
+//
+//Implementado de: https://wiki.analog.com/resources/tools-software/sharc-audio-module/baremetal/delay-effect-tutorial
+//
+
+
+
+void CClient::delayLine(int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd)
+{
+
+    //processaudio_setup();
+
+    // wet mix (from delay line)
+    float    delay_wet_mix = DelayWet/100;
+
+    // dry mix (original audio)
+    float    delay_dry_mix = DelayDry/100;
+
+    // delay feedback
+    float    delay_feedback = DelayFeedback/100;
+
+    // Otherwise perform our C-based block processing here!
+        for (int i=0;i<AUDIO_BLOCK_SIZE;i++) {
+
+            // Read last audio sample in each delay line
+            float delayed  = delay_line[delay_line_index];
+
+
+            // Mix the above with current audio and write the results back to output
+            vecsStereoSndCrd[i] = (vecsStereoSndCrd[i] * delay_dry_mix) + (delayed * delay_wet_mix);
+
+
+            // Update each delay line
+            delay_line[delay_line_index]  = delay_feedback * (delayed + vecsStereoSndCrd[i]);
+
+
+            // Finally, update the delay line index
+            if (delay_line_index++ >= delay_len_samples) {
+                delay_line_index = 0;
+            }
+        }
+
 }

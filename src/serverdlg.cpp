@@ -35,11 +35,12 @@ CServerDlg::CServerDlg(CServer *pNServP,
         : QDialog(parent, f),
           pServer(pNServP),
           pSettings(pNSetP),
-          BitmapSystemTrayInactive(QString::fromUtf8(":/png/main/res/ui/logo.png")),
-          BitmapSystemTrayActive(QString::fromUtf8(":/png/main/res/ui/logo.png")),
+          BitmapSystemTrayInactive(QString::fromUtf8(":/png/main/res/ui-2021/pantallainicio/LOGOPrueba1.png")),
+          BitmapSystemTrayActive(QString::fromUtf8(":/png/main/res/ui-2021/pantallainicio/LOGOPrueba1.png")),
           navegador(new Navegador) {
     setupUi(this);
     navegador->render(this);
+
 
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +171,6 @@ CServerDlg::CServerDlg(CServer *pNServP,
     cbxLocationCountry->setAccessibleName(tr(
             "Country where the server is located combo box"));
 
-
     // check if system tray icon can be used
     bSystemTrayIconAvaialbe = SystemTrayIcon.isSystemTrayAvailable();
 
@@ -185,17 +185,18 @@ CServerDlg::CServerDlg(CServer *pNServP,
         pSystemTrayIconMenu->addSeparator();
 
         pSystemTrayIconMenu->addAction(
-                tr("&Hide ") + APP_NAME + tr(" server"),
+                tr("&Hide ") + tr("Servidor Ságora"),
                 this, SLOT(OnSysTrayMenuHide()));
 
         pSystemTrayIconMenu->setDefaultAction(pSystemTrayIconMenu->addAction(
-                tr("&Open ") + APP_NAME + tr(" server"),
+                tr("&Open ") + tr("Servidor Ságora"),
                 this, SLOT(OnSysTrayMenuOpen())));
 
         SystemTrayIcon.setContextMenu(pSystemTrayIconMenu);
 
         // set tool text
-        SystemTrayIcon.setToolTip(QString(APP_NAME) + tr(" server"));
+        //SystemTrayIcon.setToolTip(QString(APP_NAME) + tr(" server"));
+        SystemTrayIcon.setToolTip(tr("Servidor Ságora"));
 
         // show icon of state "inactive"
         SystemTrayIcon.setIcon(QIcon(BitmapSystemTrayInactive));
@@ -215,7 +216,7 @@ CServerDlg::CServerDlg(CServer *pNServP,
 
     // set up list view for connected clients
     lvwClients->setColumnWidth(0, 170);
-    lvwClients->setColumnWidth(1, 200);
+    //lvwClients->setColumnWidth(1, 200);
     lvwClients->setStyleSheet("QHeaderView::section { background-color: transparent; }");
     lvwClients->clear();
 
@@ -308,7 +309,7 @@ CServerDlg::CServerDlg(CServer *pNServP,
     UpdateGUIDependencies();
 
     // set window title
-    setWindowTitle(APP_NAME + tr(" Server"));
+    //setWindowTitle(APP_NAME + tr(" Server"));
 
 
     // View menu  --------------------------------------------------------------
@@ -405,21 +406,21 @@ CServerDlg::~CServerDlg() {
 void CServerDlg::OnClientClickedServer() {
 
     if(edtServerName->text().isEmpty()){
-        edtServerName->setStyleSheet(
-                                     "background: rgb(15, 15, 15); "
-                                     "color:  rgb(255,255,255); "
-                                     "selection-background-color: rgb(160,160,160);"
-                                     "border: 1px solid red");
+        //edtServerName->setStyleSheet(
+          //                           "background: rgb(15, 15, 15); "
+            //                         "color:  rgb(255,255,255); "
+              //                       "selection-background-color: rgb(160,160,160);"
+                //                     "border: 1px solid red");
         edtServerName->setFocus();
         txt_error_msj->setVisible(true);
         txt_error_msj->setText("Por favor, ingresá un nombre para la sala");
     }else{
         txt_error_msj->setVisible(false);
-        edtServerName->setStyleSheet(""
-                                     "background: rgb(15, 15, 15); "
-                                     "color:  rgb(255,255,255); "
-                                     "selection-background-color: rgb(160,160,160);"
-                                     "");
+        //edtServerName->setStyleSheet(""
+          //                           "background: rgb(15, 15, 15); "
+            //                         "color:  rgb(255,255,255); "
+              //                       "selection-background-color: rgb(160,160,160);"
+                //                     "");
 
         bool bShowComplRegConnList = false;
         bool bShowAnalyzerConsole = false;
@@ -504,18 +505,18 @@ void CServerDlg::RecordCheck(int value) {
     if (value == 2) {
         pServer->bEnableRecording = true;
 
-        RecordCheckBox->setText("La transmisión se grabará en : "+QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
-        RecordCheckBox->setStyleSheet("QCheckBox { color: white; background: rgb(13,204,135);"
-                                      "}");
+        RecordLabel->setText("La transmisión se grabará en : "+QStandardPaths::writableLocation(QStandardPaths::DesktopLocation));
+        //RecordCheckBox->setStyleSheet("QCheckBox { color: white; background: rgb(13,204,135);"
+         //                             "}");
     }
 
     if (value == 0) {
         pServer->bEnableRecording = false;
         pServer->JamRecorder.OnEnd();
-        RecordCheckBox->setText("Grabar!");
-        RecordCheckBox->setStyleSheet("QCheckBox { color: white; "
-                                      "background: transparent"
-                                      "}");
+        RecordLabel->setText("");
+        //RecordCheckBox->setStyleSheet("QCheckBox { color: white; "
+          //                            "background: transparent"
+           //                           "}");
     }
 }
 
@@ -625,15 +626,21 @@ void CServerDlg::OnTimer() {
         for (int i = 0; i < iNumChannels; i++) {
             if (!(vecHostAddresses[i].InetAddr == QHostAddress(static_cast<quint32> ( 0 )))) {
                 // IP, port number
-                vecpListViewItems[i]->setText(0,
-                                              vecHostAddresses[i].toString(CHostAddress::SM_IP_PORT));
+               // vecpListViewItems[i]->setText(0,
+                 //                             vecHostAddresses[i].toString(CHostAddress::SM_IP_PORT));
 
                 // name
-                vecpListViewItems[i]->setText(1, vecsName[i]);
+                if(vecsName[i] == "")
+                {
+                    vecpListViewItems[i]->setText(0, "Usuarix sin nombre");
+                }else
+                {
+                    vecpListViewItems[i]->setText(0, vecsName[i]);
+                }
 
-                // jitter buffer size (polling for updates)
-                vecpListViewItems[i]->setText(2,
-                                              QString().setNum(veciJitBufNumFrames[i]));
+                // jitter buffer size (polling for updates)                
+                //vecpListViewItems[i]->setText(2,
+                  //                            QString().setNum(veciJitBufNumFrames[i]));
 
                 vecpListViewItems[i]->setHidden(false);
             } else {
@@ -655,7 +662,7 @@ void CServerDlg::UpdateGUIDependencies() {
     // if register server is not enabled, we disable all the configuration
     // controls for the server list
     cbxCentServAddrType->setEnabled(bCurSerListEnabled);
-    grbServerInfo->setEnabled(bCurSerListEnabled);
+    //grbServerInfo->setEnabled(bCurSerListEnabled);
 
     // make sure the line edit does not fire signals when we update the text
     edtCentralServerAddress->blockSignals(true);

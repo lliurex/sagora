@@ -22,6 +22,8 @@
  *
 \******************************************************************************/
 
+#include "util.h"
+
 //////////////////////////////////////
 //Libraries para la webview
 #include <QtCore/QUrl>
@@ -34,10 +36,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QtWebView/QtWebView>
-#include <QtWebEngineWidgets/QWebEngineView>
-
 //////////////////////////////////////
-
 #include <QApplication>
 #include <QMessageBox>
 #include <QDir>
@@ -53,8 +52,8 @@
 #include "serverdlg.h"
 #include "settings.h"
 #include "testbench.h"
-#include "util.h"
 #include "initialprogram.h"
+#include "notificaciones.h"
 
 
 //Implementation **************************************************************
@@ -102,7 +101,9 @@ int main ( int argc, char** argv )
 
 
 
+    /*
     ////////////////////////////////////////////////////////////////////////////////////////
+    //Se cambio por una descarga del archivo implementado en initialprogram
     //Archivos para el guardado y lectura de servidores centrales
     QString savefile = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QFile file(savefile+"/servidores.sagora");
@@ -110,7 +111,7 @@ int main ( int argc, char** argv )
     QFile fileIn(savefile+"/servidores.sagora");
     fileIn.open(QIODevice::ReadWrite | QIODevice::Text);
     ////////////////////////////////////////////////////////////////////////////////////////
-
+    */
 
     // QT docu: argv()[0] is the program name, argv()[1] is the first
     // argument and argv()[argc()-1] is the last argument.
@@ -539,6 +540,16 @@ int main ( int argc, char** argv )
 
  QApplication* pApp = new QApplication ( argc, argv );
 
+    string sslVersion = QSslSocket::sslLibraryVersionString().toStdString();
+    const char* ssl_version = sslVersion.c_str();
+    if (strlen(ssl_version) == 0) {
+        QMessageBox msgBox;
+        msgBox.setText("Hubo un problema cargando OpenSSL.\nSagora no puede inciarse.");
+        msgBox.exec();
+        delete pApp;
+        return 1;
+    }
+
 #ifdef _WIN32
     // set application priority class -> high priority
     SetPriorityClass ( GetCurrentProcess(), HIGH_PRIORITY_CLASS );
@@ -575,16 +586,27 @@ int main ( int argc, char** argv )
         //Pantalla inicial de Sagora
         if(bIsInicial){
 
-                  initialprogram w;
-                  w.show();
-                  w.setWindowTitle("SAGORA");
+            initialprogram w;
+            w.show();
+            //w.setWindowTitle("SÁGORA");
 
+            //Tenemos tres formas de dar notificaciones a los usuarios
+            //Abrir una URL en el browser por default
+            //QDesktopServices::openUrl(QUrl("https://sagora.org/notificaciones-new.html", QUrl::TolerantMode));
+
+                  //Generar un text browser que levanta texto html con links, no levanta imagenes
+                  //notificaciones n;
+                  //n.show();
+                  //n.setWindowTitle("Noticias de Sagora");
+
+                  //Generar una web view, levanta la web entera pero los links no se abren por afuera de la web view
+                  /*
                   ////////////////////////////////////////////////////////////////////
                   //WEBVIEW para notificaciones y comunicación
 
                   QtWebView::initialize();
-//                    QtWebEngine::initialize();
-     //             const QString initialUrl = QStringLiteral("https://sagora.org/notificaciones28365462.html");
+                //QtWebEngine::initialize();
+                //const QString initialUrl = QStringLiteral("https://sagora.org/notificaciones28365462.html");
                   const QString initialUrl = QStringLiteral("https://sagora.org/notificaciones.html");
 
                   QQmlApplicationEngine engine;
@@ -610,8 +632,12 @@ int main ( int argc, char** argv )
                     //                &myClass, SLOT(cppSlot()));
 
 
+
                   ////////////////////////////////////////////////////////////////////
+                    */
+                   /*
                   ///////////////////////////////////////////////////////////////////
+                  //Se cambio por una descarga del archivo implementado en initialprogram
                   //Este script escribe un archivo actualizando los servidores desde
                   //la pagina de sagora. Esto permite agregar servidores sin necesidad
                   //de reinstalar el programa.
@@ -655,6 +681,8 @@ int main ( int argc, char** argv )
                   fileIn.close();
                   file.close();
                   ///////////////////////////////////////////////////////////////////
+
+*/
 
 
                   //Ejecución de las pantallas principales

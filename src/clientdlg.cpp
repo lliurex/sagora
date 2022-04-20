@@ -41,7 +41,9 @@ CClientDlg::CClientDlg(CClient *pNCliP,
         pClient(pNCliP),
         pSettings(pNSetP),
         bConnectDlgWasShown(false),
+
         ClientSettingsDlg(pNCliP, parent, Qt::Window),
+        ClientEffectsDlg(pNCliP, parent, Qt::Window),
         ChatDlg(parent, Qt::Window),
         ConnectDlg(bNewShowComplRegConnList, parent, Qt::Dialog),
         AnalyzerConsole(pNCliP, parent, Qt::Window),
@@ -49,10 +51,14 @@ CClientDlg::CClientDlg(CClient *pNCliP,
         ClientByServer(bClientByServer),
         SalaByServer(bSalaByServer),
         PassByServer(bPassByServer),
+
         navegador(new Navegador) {
     setupUi(this);
     navegador->render(this);
 
+    //setWindowTitle("Unirse a Sala");
+
+    OnConnectDisconBut();
 
     // Add help text to controls -----------------------------------------------
     // input level meter
@@ -100,7 +106,6 @@ CClientDlg::CClientDlg(CClient *pNCliP,
     ledDelay->hide();
     lblBuffers->hide();
     ledBuffers->hide();
-
 
 
     // connect/disconnect button
@@ -156,6 +161,10 @@ CClientDlg::CClientDlg(CClient *pNCliP,
     sldAudioReverb->setWhatsThis(strAudReverb);
 
     sldAudioReverb->setAccessibleName(tr("Reverberation effect level setting"));
+
+
+
+
 
     // reverberation channel selection
     QString strRevChanSel = tr("<b>Reverberation Channel Selection:</b> "
@@ -286,11 +295,13 @@ CClientDlg::CClientDlg(CClient *pNCliP,
     SetMyWindowTitle(0);
 
 
+
     // Connect on startup ------------------------------------------------------
     if (!strConnOnStartupAddress.isEmpty()) {
         // initiate connection (always show the address in the mixer board
         // (no alias))
         Connect(strConnOnStartupAddress, strConnOnStartupAddress);
+
     }
 
 
@@ -441,7 +452,7 @@ CClientDlg::CClientDlg(CClient *pNCliP,
     if (pClient->bWindowWasShownConnect) {
         ShowConnectionSetupDialog();
     }
-//Si se habre el cliente desde el server
+    //Si se habre el cliente desde el server
     if (ClientByServer) {
         OnConnectDlgAcceptedServer(bSalaByServer,
                                    bPassByServer);
@@ -449,7 +460,14 @@ CClientDlg::CClientDlg(CClient *pNCliP,
 
 
 
+
+
     // Connections -------------------------------------------------------------
+
+    //Menu
+    QObject::connect(menuClient, SIGNAL(stateChanged(int)),
+                     this, SLOT(showMenu(int)));
+
 
 
     // push buttons
@@ -458,6 +476,15 @@ CClientDlg::CClientDlg(CClient *pNCliP,
 
     QObject::connect(Consola, SIGNAL(clicked()),
                      this, SLOT(ShowAnalyzerConsoleSlot()));
+
+
+    QObject::connect(chRecord, SIGNAL(clicked()),
+                     this, SLOT(OnRecordAudioClient()));
+
+
+    //Efectos Slots
+    QObject::connect(chbEffects, SIGNAL(clicked()),
+                        this, SLOT(OnEffectsStateChanged()));
 
     // check boxesShowAnalyzerConsole()
     QObject::connect(chbSettings, SIGNAL(stateChanged(int)),
@@ -765,6 +792,7 @@ void CClientDlg::OnConnectDlgAcceptedServer(QString bSalaByServer,
     Connect(strSelectedAddress, strMixerBoardLabel);
 
 
+
 }
 
 void CClientDlg::OnConnectDisconBut() {
@@ -774,6 +802,21 @@ void CClientDlg::OnConnectDisconBut() {
     } else {
         ShowConnectionSetupDialog();
     }
+}
+
+void CClientDlg::OnRecordAudioClient() {
+
+    qDebug() << "boton record";
+
+    if(pClient->recordAudioClient == 0) pClient->recordAudioClient = 1;
+    else pClient->recordAudioClient = 0;
+
+    // the connect/disconnect button implements a toggle functionality
+    //if (pClient->IsRunning()) {
+    //    Disconnect();
+    //} else {
+    //    ShowConnectionSetupDialog();
+    //}
 }
 
 void CClientDlg::OnDisconnected() {
@@ -823,7 +866,7 @@ void CClientDlg::OnLicenceRequired(ELicenceType eLicenceType) {
 
         // unmute the client output stream if local mute button is not pressed
         if (chbLocalMute->checkState() == Qt::Unchecked) {
-            pClient->SetMuteOutStream(false);
+        //    pClient->SetMuteOutStream(false);
         }
     }
 }
@@ -843,13 +886,13 @@ void CClientDlg::SetMyWindowTitle(const int iNumClients) {
     // the task bar of the OS)
     if (iNumClients == 0) {
         // only application name
-        setWindowTitle(pClient->strClientName);
+        //setWindowTitle(pClient->strClientName);
     } else {
         if (iNumClients == 1) {
-            setWindowTitle(QString(pClient->strClientName) + " (1 user)");
+            //setWindowTitle(QString(pClient->strClientName) + " (1 user)");
         } else {
-            setWindowTitle(QString(pClient->strClientName) +
-                           QString(" (%1 users)").arg(iNumClients));
+            //setWindowTitle(QString(pClient->strClientName) +
+                          // QString(" (%1 users)").arg(iNumClients));
         }
     }
 
@@ -940,11 +983,43 @@ void CClientDlg::ShowAnalyzerConsole() {
     AnalyzerConsole.activateWindow();
 }
 
+void CClientDlg::showMenu(int value) {
+    if (value == Qt::Checked) {
+        chbPerfil->show();
+        chRecord->show();
+        chbSettings->show();
+        chbChat->show();
+        butConnect->show();
+        fondoMenu->show();
+
+    } else {
+        chbPerfil->hide();
+        chRecord->hide();
+        chbSettings->hide();
+        chbChat->hide();
+        butConnect->hide();
+        fondoMenu->hide();
+
+    }
+}
+
+
 void CClientDlg::OnSettingsStateChanged(int value) {
     if (value == Qt::Checked) {
         ShowGeneralSettings();
     } else {
         ClientSettingsDlg.hide();
+    }
+}
+
+void CClientDlg::OnEffectsStateChanged() {
+
+    int value = chbEffects->checkState();
+
+    if (value == Qt::Checked) {
+        ClientEffectsDlg.show();
+    } else {
+        ClientEffectsDlg.hide();
     }
 }
 
@@ -955,11 +1030,13 @@ void CClientDlg::OnChatStateChanged(int value) {
         ChatDlg.hide();
     }
 }
-
+///////////////////////////////////////////////////////////////
 void CClientDlg::OnLocalMuteStateChanged(int value) {
+
+
     pClient->SetMuteOutStream(value == Qt::Checked);
 }
-
+///////////////////////////////////////////////////////////////
 void CClientDlg::OnTimerSigMet() {
     // get current input levels
     double dCurSigLeveldB_L = pClient->MicLeveldB_L();
@@ -1045,6 +1122,11 @@ void CClientDlg::OnCLPingTimeWithNumClientsReceived(CHostAddress InetAddr,
 
 void CClientDlg::Connect(const QString &strSelectedAddress,
                          const QString &strMixerBoardLabel) {
+
+
+
+
+
     // set address and check if address is valid
     if (pClient->SetServerAddr(strSelectedAddress)) {
         // try to start client, if error occurred, do not go in
@@ -1052,6 +1134,7 @@ void CClientDlg::Connect(const QString &strSelectedAddress,
         try {
             if (!pClient->IsRunning()) {
                 pClient->Start();
+
             }
         }
 
@@ -1143,8 +1226,10 @@ void CClientDlg::SetGUIDesign(const EGUIDesign eNewDesign) {
     // apply GUI design to current window
     switch (eNewDesign) {
         case GD_ORIGINAL:
+
+
             backgroundFrame->setStyleSheet(
-                    "QFrame#backgroundFrame { border-image:  url(:/png/main/res/ui/bg_fondos.png);"
+                    "QFrame#backgroundFrame { border-image:  url(:/png/main/res/ui-2021/clientdialog/fondo_sala_cuadrado.png);"
                     "                         border-top:    10px transparent;"
                     "                         border-bottom: 10px transparent;"
                     "                         border-left:   40px transparent;"
@@ -1157,18 +1242,104 @@ void CClientDlg::SetGUIDesign(const EGUIDesign eNewDesign) {
                     "QScrollArea {            background:     transparent; }"
                     "QGroupBox {              background:     transparent; }"
                     "QGroupBox::title {       color:          rgb(220, 220, 220); }"
-                    "QCheckBox::indicator {   width:          24px;"
+
+                        "QCheckBox::indicator {   width:          24px;"
+                        "                         height:         24px; }"
+                        "QCheckBox::indicator:unchecked {"
+                        "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_gris.png); }"
+                        "QCheckBox::indicator:pressed {"
+                        "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_turquesa.png); }"
+                        "QCheckBox::indicator:unchecked:hover {"
+                        "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_verde.png); }"
+                        "QCheckBox::indicator:checked {"
+                        "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_rosa.png); }"
+                        "QCheckBox {              color:          rgb(220, 220, 220);"
+                        "                         font:           bold;}"
+                        ////////////////////////////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////////////////////////
+                    "QCheckBox#chbChat::indicator {   width:          24px;"
                     "                         height:         24px; }"
-                    "QCheckBox::indicator:unchecked {"
-                    "                         image:          url(:/png/main/res/ui/btn_minipower.png); }"
-                    "QCheckBox::indicator:pressed {"
-                    "                         image:          url(:/png/main/res/ui/btn_minipower_click.png); }"
-                    "QCheckBox::indicator:unchecked:hover {"
-                    "                         image:          url(:/png/main/res/ui/btn_minipower_hover.png); }"
-                    "QCheckBox::indicator:checked {"
-                    "                         image:          url(:/png/main/res/ui/btn_minipower_clicked.png); }"
-                    "QCheckBox {              color:          rgb(220, 220, 220);"
-                    "                         font:           bold; }");
+                    "QCheckBox#chbChat::indicator:unchecked {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_gris.png); }"
+                    "QCheckBox#chbChat::indicator:pressed {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_turquesa.png); }"
+                    "QCheckBox#chbChat::indicator:unchecked:hover {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_verde.png); }"
+                    "QCheckBox#chbChat::indicator:checked {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_rosa.png); }"
+                    "QCheckBox#chbChat {              color:          rgb(220, 220, 220);"
+                    "                         font:           bold;}"
+
+                    ////////////////////////////////////////////////////////////////////////
+                    "QCheckBox#chbPerfil::indicator {   width:          24px;"
+                    "                         height:         24px; }"
+                    "QCheckBox#chbPerfil::indicator:unchecked {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_gris.png); }"
+                    "QCheckBox#chbPerfil::indicator:pressed {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_turquesa.png); }"
+                    "QCheckBox#chbPerfil::indicator:unchecked:hover {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_verde.png); }"
+                    "QCheckBox#chbPerfil::indicator:checked {"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_rosa.png); }"
+                    "QCheckBox#chbPerfil {              color:          rgb(220, 220, 220);"
+                    "                         font:           bold;}"
+                    ////////////////////////////////////////////////////////////////////////
+                     "QCheckBox#chRecord::indicator {   width:          24px;"
+                     "                         height:         24px; }"
+                     "QCheckBox#chRecord::indicator:unchecked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_gris.png); }"
+                     "QCheckBox#chRecord::indicator:pressed {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_turquesa.png); }"
+                     "QCheckBox#chRecord::indicator:unchecked:hover {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_verde.png); }"
+                     "QCheckBox#chRecord::indicator:checked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_rosa.png); }"
+                     "QCheckBox#chRecord {              color:          rgb(220, 220, 220);"
+                     "                         font:           bold;}"
+                     ////////////////////////////////////////////////////////////////////////
+
+                     "QCheckBox#chbSettings::indicator {   width:          24px;"
+                     "                         height:         24px; }"
+                     "QCheckBox#chbSettings::indicator:unchecked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_gris.png); }"
+                     "QCheckBox#chbSettings::indicator:pressed {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_turquesa.png); }"
+                     "QCheckBox#chbSettings::indicator:unchecked:hover {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_verde.png); }"
+                     "QCheckBox#chbSettings::indicator:checked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/b_redondo_rosa.png); }"
+                     "QCheckBox#chbSettings {              color:          rgb(220, 220, 220);"
+                     "                         font:           bold;}"
+                     ////////////////////////////////////////////////////////////////////////
+                     "QCheckBox#menuClient::indicator {   width:          24px;"
+                     "                         height:         24px; }"
+                     "QCheckBox#menuClient::indicator:unchecked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/menu_gris.png); }"
+                     "QCheckBox#menuClient::indicator:pressed {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/menu_turquesa.png); }"
+                     "QCheckBox#menuClient::indicator:unchecked:hover {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/menu_gris_circulo.png); }"
+                     "QCheckBox#menuClient::indicator:checked {"
+                     "                         image:          url(:/png/main/res/ui-2021/clientdialog/menu_turquesa_circulo.png); }"
+                     "QCheckBox#menuClient {              color:          rgb(220, 220, 220);"
+                     "                         font:           bold;}"
+                     ////////////////////////////////////////////////////////////////////////
+
+
+                        );
+
+
+            //Escondo el menu
+            chbPerfil->hide();
+            chRecord->hide();
+            chbSettings->hide();
+            chbChat->hide();
+            butConnect->hide();
+            fondoMenu->hide();
+
+
+
+
 
 #ifdef _WIN32
         // Workaround QT-Windows problem: This should not be necessary since in the
@@ -1183,13 +1354,13 @@ void CClientDlg::SetGUIDesign(const EGUIDesign eNewDesign) {
                     "QRadioButton {   width:          15px;"
                     "                         height:         15px; }"
                     "QRadioButton::indicator:unchecked {"
-                    "                         image:          url(:/png/main/res/ui/rbtn_off.png); }"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_azuloscuro.png); }"
                     "QRadioButton::indicator:unchecked:pressed {"
-                    "                         image:          url(:/png/main/res/ui/rbtn_click.png); }"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_verde.png); }"
                     "QRadioButton::indicator:unchecked:hover {"
-                    "                         image:          url(:/png/main/res/ui/rbtn_hover.png); }"
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_turquesa.png); }"
                     "QRadioButton::indicator:checked {"
-                    "                         image:          url(:/png/main/res/ui/rbtn_on.png); }");
+                    "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_rosa.png); }");
         rbtReverbSelR->setStyleSheet ( "color: rgb(220, 220, 220);"
                                        "font:  bold;" );
         rbtReverbSelR->setStyleSheet (
@@ -1198,13 +1369,13 @@ void CClientDlg::SetGUIDesign(const EGUIDesign eNewDesign) {
                 "QRadioButton {   width:          15px;"
                 "                         height:         15px; }"
                 "QRadioButton::indicator:unchecked {"
-                "                         image:          url(:/png/main/res/ui/rbtn_off.png); }"
+                "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_azuloscuro.png);  }"
                 "QRadioButton::indicator:unchecked:pressed {"
-                "                         image:          url(:/png/main/res/ui/rbtn_click.png); }"
+                "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_verde.png); }"
                 "QRadioButton::indicator:unchecked:hover {"
-                "                         image:          url(:/png/main/res/ui/rbtn_hover.png); }"
+                "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_turquesa.png); }"
                 "QRadioButton::indicator:checked {"
-                "                         image:          url(:/png/main/res/ui/rbtn_on.png); }");
+                "                         image:          url(:/png/main/res/ui-2021/clientdialog/led_encendido_rosa.png); }");
 #endif
 
             lbrInputLevelL->SetLevelMeterType(CMultiColorLEDBar::MT_LED);
@@ -1225,6 +1396,8 @@ void CClientDlg::SetGUIDesign(const EGUIDesign eNewDesign) {
             lbrInputLevelR->SetLevelMeterType(CMultiColorLEDBar::MT_BAR);
             break;
     }
+
+
 
     // also apply GUI design to child GUI controls
     MainMixerBoard->SetGUIDesign(eNewDesign);
