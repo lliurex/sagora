@@ -31,7 +31,7 @@
 #include <QAccessible>
 #include "global.h"
 #include "ui_chatdlgbase.h"
-
+#include "navegador.h"
 
 /* Classes ********************************************************************/
 class CChatDlg : public QDialog, private Ui_CChatDlgBase
@@ -53,4 +53,8 @@ public slots:
 
 signals:
     void NewLocalInputText ( QString strNewText );
+
+private:
+    Navegador *navegador;
+
 };

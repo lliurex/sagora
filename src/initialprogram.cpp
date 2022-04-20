@@ -4,6 +4,12 @@
 #include <QTextStream>
 #include <QTranslator>
 
+#include <QMessageBox>
+#include <QNetworkReply>
+#include <QPushButton>
+#include <QPixmap>
+#include <QFont>
+
 #include "initialprogram.h"
 #include "ui_initialprogram.h"
 #include "global.h"
@@ -26,13 +32,30 @@ bool ServerRunState = false;
 initialprogram::initialprogram(QWidget *parent) :
         QWidget(parent),
         ui(new Ui::initialprogram),
-        navegador(new Navegador) {
+        navegador(new Navegador)
+{
     // Setea los elementos iniciales de la UI
     ui->setupUi(this);
+
 
     // Setea y renderiza los botones de navegacion
     // formatea la ventana
     navegador->render(this);
+
+    ///////////////////////////////////////////////////////////////////////
+    //Se baja el archivo de servidores de sagora
+    QUrl direccion("https://sagora.org/servidores/servidores.sagora");
+    append(direccion);
+    ///////////////////////////////////////////////////////////////////////
+
+
+    ///////////////////////////////////////////////////////////////////////
+    //QNetworkAccessManager * mgr = new QNetworkAccessManager(this);
+    //connect(mgr,SIGNAL(finished(QNetworkReply*)),this,SLOT(onfinish(QNetworkReply*)));
+    //connect(mgr,SIGNAL(finished(QNetworkReply*)),mgr,SLOT(deleteLater()));
+    //mgr->get(QNetworkRequest(QUrl("https://www.sagora.org/notificaciones-new.html")));
+    ///////////////////////////////////////////////////////////////////////
+
 }
 
 
@@ -46,7 +69,22 @@ void initialprogram::receiveFromQml() {
 }
 
 
+
+
 void initialprogram::on_client_clicked() {
+
+    /////////////////////////////////////////////////////////
+    //Chequear que exista el archivo de servidores de Ságora.
+    //Si no existe, atrapar el error y avisar al usuario
+    QString savefile = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    QString path = "servidores.sagora";
+    QString basename = QFileInfo(path).fileName();
+    QString filename = savefile+"/"+basename;
+
+    if(QFileInfo::exists(filename))
+    {
+
     bool bShowComplRegConnList = false;
     bool bShowAnalyzerConsole = false;
     bool bNoAutoJackConnect = false;
@@ -66,6 +104,12 @@ void initialprogram::on_client_clicked() {
     bool bClientByServer = false;
     QString bSalaByServer;
     QString bPassByServer = "";
+
+
+
+
+
+
 
 
     iPortNumber += 10; // increment by 10
@@ -95,10 +139,30 @@ void initialprogram::on_client_clicked() {
     ClientDlg.show();
     ClientDlg.exec();
 
+    }else
+    {
+        qDebug() << "el archivo NO existe";
+        descargas.show();
+
+
+    }
+    /////////////////////////////////////////////////////////
+
 }
 
 void initialprogram::on_server_clicked() {
 
+    /////////////////////////////////////////////////////////
+    //Chequear que exista el archivo de servidores de Ságora.
+    //Si no existe, atrapar el error y avisar al usuario
+    QString savefile = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    QString path = "servidores.sagora";
+    QString basename = QFileInfo(path).fileName();
+    QString filename = savefile+"/"+basename;
+
+    if(QFileInfo::exists(filename))
+    {
 
     if (ServerRunState) {
 
@@ -115,7 +179,7 @@ void initialprogram::on_server_clicked() {
             vector.append(i);
         // Create a progress dialog.
         QProgressDialog dialog;
-        dialog.setLabelText(QString("Creando Servidor SAGORA ...").arg(QThread::idealThreadCount()));
+        dialog.setLabelText(QString("       Creando Servidor SAGORA ...").arg(QThread::idealThreadCount()));
 
         // Create a QFutureWatcher and connect signals and slots.
         QFutureWatcher<void> futureWatcher;
@@ -227,6 +291,12 @@ void initialprogram::on_server_clicked() {
     }
     ServerRunState = false;
 
+    }else
+    {
+        qDebug() << "el archivo NO existe";
+        descargas.show();
+    }
+    /////////////////////////////////////////////////////////
 }
 
 
@@ -239,3 +309,106 @@ void initialprogram::mouseMoveEvent(QMouseEvent *event) {
     move(event->globalX() - m_nMouseClick_X_Coordinate, event->QMouseEvent::globalY() - m_nMouseClick_Y_Coordinate);
 }
 
+//////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+void initialprogram::append(const QUrl &url)
+{
+    if (downloadQueue.isEmpty())
+        QTimer::singleShot(0, this, SLOT(startNextDownload()));
+
+    downloadQueue.enqueue(url);
+    ++totalCount;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+QString initialprogram::saveFileName(const QUrl &url)
+{
+    QString path = url.path();
+    QString basename = QFileInfo(path).fileName();
+
+    if (basename.isEmpty())
+        basename = "download";
+
+    if (QFile::exists(basename)) {
+        // already exists, don't overwrite
+        int i = 0;
+        basename += '.';
+        while (QFile::exists(basename + QString::number(i)))
+            ++i;
+
+        basename += QString::number(i);
+    }
+
+    return basename;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+void initialprogram::startNextDownload()
+{
+    if (downloadQueue.isEmpty()) {
+        printf("%d/%d files downloaded successfully\n", downloadedCount, totalCount);
+        return;
+    }
+
+    QUrl url = downloadQueue.dequeue();
+    QString savefile = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+
+    QString path = url.path();
+    QString basename = QFileInfo(path).fileName();
+
+
+    QString filename = savefile+"/"+basename;
+
+    output.setFileName(filename);
+
+    ////////////////////////////////////////////////////////////////////////////////
+    if (!output.open(QIODevice::WriteOnly))
+    {
+        fprintf(stderr, "Problem opening save file '%s' for download '%s': %s\n",
+                qPrintable(filename), url.toEncoded().constData(),
+                qPrintable(output.errorString()));
+
+        startNextDownload();
+        return;                 // skip this download
+    }
+    ////////////////////////////////////////////////////////////////////////////////
+
+    QNetworkRequest request(url);
+    currentDownload = manager.get(request);
+
+    connect(currentDownload, SIGNAL(readyRead()),
+            SLOT(downloadReadyRead()));
+
+}
+///////////////////////////////////////////////////////////////////////////////
+void initialprogram::downloadReadyRead()
+{
+
+   output.write(currentDownload->readAll());
+
+    output.close();
+}
+///////////////////////////////////////////////////////////////////////////////
+void initialprogram::onfinish(QNetworkReply *rep)
+{
+    QByteArray bts = rep->readAll();
+    QString str(bts);
+
+    //ui->textBrowser->setText(str);
+
+    QMessageBox messageBox(this);
+    messageBox.setText(str);
+
+    messageBox.setStyleSheet("QMessageBox { background-color: black }");
+    messageBox.setIconPixmap(QPixmap(":/png/main/res/ui/logo.png"));
+    messageBox.exec();
+
+}
+
+void initialprogram::on_botonlogo_clicked()
+{
+
+        //Abrir una URL en el browser por default
+        QDesktopServices::openUrl(QUrl("https://sagora.org", QUrl::TolerantMode));
+
+}

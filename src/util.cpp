@@ -535,8 +535,14 @@ CMusProfDlg::CMusProfDlg ( CClient* pNCliP,
     - OK button
 */
     setWindowTitle ( "Perfil de Músico" );
-    setStyleSheet("    background-color: rgb(40, 40, 40);\nborder-color: rgb(0, 0, 0);\ncolor: rgb(255, 255, 255);\nbackground-image:  url(:/png/main/res/ui/bg_fondos.png);");
+    setStyleSheet(  "QDialog{background-color: rgb(40, 40, 40);\nborder-color: rgb(0, 0, 0);\n"
+                    "color: rgb(255, 255, 255);\n"
+                    "background-image:  url(:/png/main/res/ui-2021/perfildialog/fondo.png);}");
+
+
     setWindowIcon ( QIcon ( QString::fromUtf8 ( ":/png/main/res/fronticon.png" ) ) );
+
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint| Qt::Dialog);
 
     QVBoxLayout* pLayout        = new QVBoxLayout ( this );
     QHBoxLayout* pButSubLayout  = new QHBoxLayout;
@@ -550,28 +556,51 @@ CMusProfDlg::CMusProfDlg ( CClient* pNCliP,
     pedtCity                    = new QLineEdit ( this );
     QLabel*      plblSkill      = new QLabel ( "Tipo de Músico", this );
     pcbxSkill                   = new QComboBox ( this );
-    QPushButton* butClose       = new QPushButton ( "&Close", this );
+    QPushButton* butClose       = new QPushButton ( "&Cerrar", this );
 
     QGridLayout* pGridLayout = new QGridLayout;
 
 
     plblAlias->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Expanding );
     plblAlias->setStyleSheet("    background-color: transparent;\ncolor: rgb(255, 255, 255);");
+
+
+
+
     pGridLayout->addWidget ( plblAlias, 0, 0 );
-    pedtAlias->setStyleSheet("    background-color: background: rgb(15, 15, 15);\ncolor: rgb(255, 255, 255);");
+    pedtAlias->setStyleSheet("background-color: rgb(7, 45, 59);"
+                                "border-radius: 10;"
+                                "border-width: 2px;"
+                                "border-style: solid;"
+                                "border-color: rgb(186, 42, 86);"
+                                "color: white;");
     pGridLayout->addWidget ( pedtAlias, 0, 1 );
 
     plblInstrument->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Expanding );
     plblInstrument->setStyleSheet("    background-color: transparent;\n;\ncolor: rgb(255, 255, 255);");
-    pcbxInstrument->setStyleSheet("QComboBox{"
-                                  "background-color: rgb(15, 15, 15);"
-                                  "border-color: rgb(25,25,25);"
-                                  "color: white;"
-                                  "}"
-                                  ""
-                                  "QComboBox::down-arrow{"
-                                  "font-color: rgb(250,250,250);"
-                                  "}");
+    pcbxInstrument->setStyleSheet(
+                                "background-color: rgb(7, 45, 59);"
+                                "border-radius: 10;"
+                                "border-width: 2px;"
+                                "border-style: solid;"
+                                "border-color: rgb(186, 42, 86);"
+                                "color: white;"
+                                  );
+
+
+    plblCountry->setSizePolicy ( QSizePolicy::Minimum, QSizePolicy::Expanding );
+    plblCountry->setStyleSheet("    background-color: transparent;\n;\ncolor: rgb(255, 255, 255);");
+
+
+    pcbxCountry->setStyleSheet( "background-color: rgb(7, 45, 59);"
+                                "border-radius: 10;"
+                                "border-width: 2px;"
+                                "border-style: solid;"
+                                "border-color: rgb(186, 42, 86);"
+                                "color: white;"
+                                  );
+
+
     pGridLayout->addWidget ( plblInstrument, 1, 0 );
     pGridLayout->addWidget ( pcbxInstrument, 1, 1 );
 
@@ -604,36 +633,32 @@ CMusProfDlg::CMusProfDlg ( CClient* pNCliP,
     butClose->setAutoDefault ( false );
     butClose->setDefault ( false );
     plblSkill->setVisible(false);
-    butClose->setStyleSheet("#butClose{"
-                            "background: rgb(28, 28, 28); "
-                            "selection-background-color: rgb(28, 28, 28);"
-                            "border-color: rgb(120, 120, 120);"
-                              "  border-style: outset;"
-                             "   border-width: 1.3px;"
-                            "color: rgb(120, 120, 120);"
-                            "}"
-                            "#butClose:hover{"
-                            "border-color: rgb(13, 204, 135);"
-                            "   border-style: outset;"
-                            "    border-width: 1.3px;"
-                            "color: rgb(13, 204, 135);"
-                            "}"
-                            "#butClose:pressed{"
-                            "background: rgb(15, 15, 15); "
-                            "border-color: rgb(13, 204, 135);"
-                            "    border-style: outset;"
-                            "    border-width: 1.3px;"
-                            "}");
+    butClose->setStyleSheet(
+                                "QPushButton{border-radius: 10;"
+                                "background: rgb(28, 28, 28);"
+                                "color: rgb(120, 120, 120);"
+                                "border-radius: 10;}"
 
-pcbxCountry->setStyleSheet("QComboBox{"
-                      "background-color: rgb(15, 15, 15);"
-                      "border-color: rgb(25,25,25);"
-                      "color: white;"
-                      "}"
-                      ""
-                      "QComboBox::down-arrow{"
-                      "font-color: rgb(250,250,250);"
-                      "}");
+                                "QPushButton::hover{"
+                                "border-color: rgb(13, 204, 135);"
+                                    "border-style: outset;"
+                                    "border-width: 1.3px;"
+                                "color: rgb(13, 204, 135);"
+                                "border-radius: 10;}"
+
+                                "QPushButton::pressed{"
+                                "background: rgb(15, 15, 15);"
+                                "border-color: rgb(186, 42, 86);"
+                                    "border-style: outset;"
+                                    "border-width: 1.3px;"
+                                "color: rgb(186, 42, 86);"
+                                "border-radius: 10;}"
+
+                            );
+
+
+
+
 
 
 
@@ -686,7 +711,7 @@ pcbxCountry->setStyleSheet("QComboBox{"
     FlagNoneIcon.addFile ( ":/png/flags/res/flags/flagnone.png" );
     pcbxCountry->insertItem ( 0,
                               FlagNoneIcon,
-                              "None",
+                              "Ninguno",
                               static_cast<int> ( QLocale::AnyCountry ) );
 
 
@@ -1004,7 +1029,7 @@ CVector<CInstPictures::CInstPictProps>& CInstPictures::GetTable()
         // instrument picture data base initialization
         // NOTE: Do not change the order of any instrument in the future!
         // NOTE: The very first entry is the "not used" element per definition.
-        vecDataBase.Add ( CInstPictProps ( "None", ":/png/instr/res/instruments/instrnone.png", IC_OTHER_INSTRUMENT ) ); // special first element
+        vecDataBase.Add ( CInstPictProps ( "Ninguno", ":/png/instr/res/instruments/instrnone.png", IC_OTHER_INSTRUMENT ) ); // special first element
         vecDataBase.Add ( CInstPictProps ( "Drum Set", ":/png/instr/res/instruments/instrdrumset.png", IC_PERCUSSION_INSTRUMENT ) );
         vecDataBase.Add ( CInstPictProps ( "Djembe", ":/png/instr/res/instruments/instrdjembe.png", IC_PERCUSSION_INSTRUMENT ) );
         vecDataBase.Add ( CInstPictProps ( "Electric Guitar", ":/png/instr/res/instruments/instreguitar.png", IC_PLUCKING_INSTRUMENT ) );

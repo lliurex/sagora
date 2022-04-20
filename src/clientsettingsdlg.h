@@ -38,7 +38,7 @@
 #include "client.h"
 #include "multicolorled.h"
 #include "ui_clientsettingsdlgbase.h"
-
+#include "navegador.h"
 
 /* Definitions ****************************************************************/
 // update time for GUI controls
@@ -104,6 +104,9 @@ protected:
     void OnAudioQualityActivated ( int iQualityIdx );
     void OnCentServAddrTypeActivated ( int iTypeIdx );
     void OnDriverSetupClicked();
+
+private:
+    Navegador *navegador;
 
 signals:
     void GUIDesignChanged();

@@ -33,7 +33,7 @@
 #include "client.h"
 #include "multicolorled.h"
 #include "ui_connectdlgbase.h"
-
+#include "navegador.h"
 
 /* Definitions ****************************************************************/
 // defines the time interval at which the request server list message is re-
@@ -123,4 +123,7 @@ signals:
     void CreateCLServerListPingMes ( CHostAddress InetAddr );
     void CreateCLServerListReqVerAndOSMes ( CHostAddress InetAddr );
     void CreateCLServerListReqConnClientsListMes ( CHostAddress InetAddr );
+
+private:
+    Navegador *navegador;
 };

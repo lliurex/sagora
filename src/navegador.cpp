@@ -6,17 +6,22 @@
 */
 
 #include "navegador.h"
-#include <QPainterPath>
 
 // Renderiza los botones para minimizar y cerrar el widget actual
 void Navegador::render(QWidget *widgetContext) {
     window = widgetContext;
 
     QString qclass = window->metaObject()->className();
+
     isPantallaInicio = !qclass.compare("initialprogram");
+    isPantallaNotifications = !qclass.compare("notificaciones");
     isPantallaServer = !qclass.compare("CServerDlg");
     isPantallaCliente = !qclass.compare("CClientDlg");
+    isPantallaConfiguracionCliente = !qclass.compare("CClientSettingsDlg");
 
+    isPantallaChat = !qclass.compare("CChatDlg");
+    isPantallaEfectos = !qclass.compare("CClienteffectsdlg");
+    isPantallaConnect = !qclass.compare("CConnectDlg");
 
 
     renderizarBotones();
@@ -38,7 +43,7 @@ void Navegador::cerrar() {
         if(isPantallaServer){
             window->setWindowState(Qt::WindowMinimized);
         }else{
-            window->close();
+                window->close();
         }
     }
 }
@@ -55,10 +60,19 @@ void Navegador::renderizarBotones() {
         DX = 26;
     }
     if(isPantallaCliente){
-        X = window->geometry().size().width()+135;
+        X = window->geometry().size().width()*1.2;
         DX = 26;
     }
 
+    if(isPantallaConfiguracionCliente){
+        X = window->geometry().size().width()*1.2;
+        DX = 26;
+    }
+
+
+
+    if(isPantallaInicio || isPantallaNotifications || isPantallaServer || isPantallaCliente || isPantallaConnect)
+    {
     btn_min = new QPushButton(window);
     btn_min->setGeometry(X, Y, 16, 16);
     btn_min->setStyleSheet("QPushButton {border-image:  url(:/png/main/res/ui/btn_min.png);}"
@@ -74,16 +88,28 @@ void Navegador::renderizarBotones() {
 
     connect(btn_min, SIGNAL(clicked()), this, SLOT(minimizar()));
     connect(btn_close, SIGNAL(clicked()), this, SLOT(cerrar()));
-
+    }
 }
 
 // Quita la barra de herramientas por defecto y redondea bordes de la ventana
 // segun un valor de radio
 void Navegador::formatearVentana() {
 
-    window->setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
+
+
+    if (isPantallaCliente) {
+        window->setWindowFlags(Qt::FramelessWindowHint);
+
+    }
+
+    if (isPantallaServer) {
+        window->setWindowFlags(Qt::FramelessWindowHint);
+
+    }
 
     if (isPantallaInicio) {
+
+        window->setWindowFlags(Qt::FramelessWindowHint);
         const int RADIO = 10;
 
         QPainterPath path;
@@ -91,5 +117,34 @@ void Navegador::formatearVentana() {
         QRegion mask = QRegion(path.toFillPolygon().toPolygon());
         window->setMask(mask);
     }
+
+
+    if (isPantallaNotifications) {
+        const int RADIO = 0;
+
+        QPainterPath path;
+        path.addRoundedRect(window->rect(), RADIO, RADIO);
+        QRegion mask = QRegion(path.toFillPolygon().toPolygon());
+        window->setMask(mask);
+    }
+
+     if (isPantallaConfiguracionCliente) {
+       // window->setWindowFlags(Qt::CustomizeWindowHint | Qt::Dialog | Qt::WindowTitleHint);
+     }
+
+     if (isPantallaEfectos) {
+       // window->setWindowFlags(Qt::CustomizeWindowHint | Qt::Dialog | Qt::WindowTitleHint);
+     }
+
+     if (isPantallaChat) {
+       // window->setWindowFlags(Qt::CustomizeWindowHint | Qt::Dialog | Qt::WindowTitleHint);
+     }
+
+     if (isPantallaConnect) {
+        //window->setWindowFlags(Qt::CustomizeWindowHint);
+         window->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+        //window->setGeometry(window->geometry().size().width(),window->geometry().size().height()*2, window->geometry().size().width(),window->geometry().size().height() );
+     }
+
 }
 

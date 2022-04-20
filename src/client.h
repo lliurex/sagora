@@ -98,6 +98,40 @@
 #define OPUS_NUM_BYTES_STEREO_HIGH_QUALITY_DBLE_FRAMESIZE   142
 
 
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+// author: fangjun kuang <csukuangfj at gmail dot com>
+// date: Apr. 22, 2019
+// refer to http://www.topherlee.com/software/pcm-tut-wavformat.html
+#include <fstream>
+#include <iostream>
+
+
+typedef struct WAV_HEADER {
+  /* RIFF Chunk Descriptor */
+  uint8_t RIFF[4] = {'R', 'I', 'F', 'F'}; // RIFF Header Magic header
+  uint32_t ChunkSize;                     // RIFF Chunk Size
+  uint8_t WAVE[4] = {'W', 'A', 'V', 'E'}; // WAVE Header
+  /* "fmt" sub-chunk */
+  uint8_t fmt[4] = {'f', 'm', 't', ' '}; // FMT header
+  uint32_t Subchunk1Size = 16;           // Size of the fmt chunk
+  uint16_t AudioFormat = 1; // Audio format 1=PCM,6=mulaw,7=alaw,     257=IBM
+                            // Mu-Law, 258=IBM A-Law, 259=ADPCM
+  uint16_t NumOfChan = 2;   // Number of channels 1=Mono 2=Sterio
+  uint32_t SamplesPerSec = 48000;   // Sampling Frequency in Hz
+  uint32_t bytesPerSec = 48000 * 2; // bytes per second
+  uint16_t blockAlign = 4;          // 2=16-bit mono, 4=16-bit stereo
+  uint16_t bitsPerSample = 16;      // Number of bits per sample
+  /* "data" sub-chunk */
+  uint8_t Subchunk2ID[4] = {'d', 'a', 't', 'a'}; // "data"  string
+  uint32_t Subchunk2Size;                        // Sampled data length
+} wav_hdr;
+///////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 /* Classes ********************************************************************/
 class CClient : public QObject
 {
@@ -108,7 +142,8 @@ public:
               const QString& strConnOnStartupAddress,
               const int      iCtrlMIDIChannel,
               const bool     bNoAutoJackConnect,
-              const QString& strNClientName );
+              const QString& strNClientName
+              );
 
     void   Start();
     void   Stop();
@@ -296,6 +331,31 @@ public:
     bool             bWindowWasShownProfile;
     bool             bWindowWasShownConnect;
 
+    //Record Audio Client
+    int                     recordAudioClient;
+    int                     createFolderRecordAudioClient;
+    int                     createFileRecordAudioClient;
+    int                     sizeAudio;
+
+    //Audio Effects functions
+
+       int TremoloActivate;
+       float TremoloRate;
+       float TremoloDepth;
+
+       int RingActivate;
+       float RingRate;
+       float RingBlend;
+
+       int DelayActivate;
+       float DelayWet;
+       float DelayDry;
+       float DelayFeedback;
+
+       void tremolo(int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd);
+       void ringModulator(int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd);
+       void delayLine(int AUDIO_BLOCK_SIZE, CVector<int16_t>& vecsStereoSndCrd);
+
 #ifdef LLCON_VST_PLUGIN
     // VST version must have direct access to sound object
     CSound* GetSound() { return &Sound; }
@@ -385,6 +445,8 @@ protected:
 
     // for ping measurement
     CPreciseTime            PreciseTime;
+
+
 
 public slots:
     void OnSendProtMessage ( CVector<uint8_t> vecMessage );

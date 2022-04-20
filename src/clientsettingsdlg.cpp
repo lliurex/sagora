@@ -28,9 +28,11 @@
 
 /* Implementation *************************************************************/
 CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, QWidget* parent,
-    Qt::WindowFlags f ) : QDialog ( parent, f ), pClient ( pNCliP )
-{
-    setupUi ( this );
+    Qt::WindowFlags f ) : QDialog ( parent, f ), pClient ( pNCliP ),
+    navegador(new Navegador) {
+setupUi(this);
+navegador->render(this);
+
 
 
     // Add help text to controls -----------------------------------------------
@@ -128,6 +130,14 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, QWidget* parent,
     grbMeasureResults->hide();
     chbDisplayChannelLevels->hide();
     chbGUIDesignFancy->hide();
+    lblNewClientLevel->hide();
+    edtNewClientLevel->hide();
+    lblPercentUnit->hide();
+
+    lblAudioChannels->hide();
+    cbxAudioChannels->hide();
+    lblAudioQuality->hide();
+    cbxAudioQuality->hide();
     // enable OPUS64
     chbEnableOPUS64->setWhatsThis ( tr ( "<b>Enable Small Network Buffers:</b> If enabled, "
         "the support for very small network audio packets is activated. Very small "
@@ -356,6 +366,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, QWidget* parent,
     edtCentralServerAddress->hide();
 
     // central server address type combo box
+    cbxCentServAddrType->hide();
     cbxCentServAddrType->clear();
     //cbxCentServAddrType->addItem ( "Manual" );                  // AT_MANUAL
     cbxCentServAddrType->addItem ( "Quilmes/Argentina" );                 // AT_DEFAULT
@@ -729,8 +740,12 @@ void CClientSettingsDlg::OnEnableBufferConfiguracion ( int value )
         grbSoundCrdBufDelay->show();
         grbJitterBuffer->show();
         grbMeasureResults->show();
-        chbDisplayChannelLevels->show();
-        chbGUIDesignFancy->show();
+        lblAudioChannels->show();
+        cbxAudioChannels->show();
+        lblAudioQuality->show();
+        cbxAudioQuality->show();
+        //chbDisplayChannelLevels->show();
+        //chbGUIDesignFancy->show();
     }
     if ( value == Qt::Unchecked ){
         chbEnableOPUS64->hide();
@@ -739,6 +754,10 @@ void CClientSettingsDlg::OnEnableBufferConfiguracion ( int value )
         grbMeasureResults->hide();
         chbDisplayChannelLevels->hide();
         chbGUIDesignFancy->hide();
+        lblAudioChannels->hide();
+        cbxAudioChannels->hide();
+        lblAudioQuality->hide();
+        cbxAudioQuality->hide();
     }
 
 }

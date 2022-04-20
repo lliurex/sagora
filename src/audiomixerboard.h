@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include "util.h"
+
 #include <QFrame>
 #include <QScrollArea>
 #include <QGroupBox>
@@ -35,7 +37,6 @@
 #include <QSizePolicy>
 #include <QHostAddress>
 #include "global.h"
-#include "util.h"
 #include "multicolorledbar.h"
 
 

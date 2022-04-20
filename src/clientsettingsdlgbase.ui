@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>752</width>
-    <height>505</height>
+    <width>818</width>
+    <height>431</height>
    </rect>
   </property>
   <property name="font">
@@ -26,7 +26,8 @@
    <string notr="true">#CClientSettingsDlgBase{
 background-color: rgb(0, 0, 0);
 color: rgb(255, 255, 255);
-background-image:  url(:/png/main/res/ui/bg_big.png);
+border-image: url(:/png/main/res/ui-2021/clientsettingsdialog/fondo_configuracion.png);
+
 }
 
 </string>
@@ -35,6 +36,12 @@ background-image:  url(:/png/main/res/ui/bg_big.png);
    <bool>true</bool>
   </property>
   <layout class="QHBoxLayout">
+   <property name="leftMargin">
+    <number>20</number>
+   </property>
+   <property name="rightMargin">
+    <number>20</number>
+   </property>
    <item>
     <widget class="QGroupBox" name="grbSoundCard">
      <property name="font">
@@ -44,7 +51,8 @@ background-image:  url(:/png/main/res/ui/bg_big.png);
      </property>
      <property name="styleSheet">
       <string notr="true">QGroupBox{
-    border: 1px solid rgb(120,120,120);
+    border: 1px solid rgb(120,120,120,);
+	border-radius: 10;
     margin-top: 0.5em;
     color: white;
 }
@@ -55,9 +63,60 @@ QGroupBox::title {
 }</string>
      </property>
      <property name="title">
-      <string>Opciones de Placas de Audio</string>
+      <string>Opciones de audio</string>
      </property>
      <layout class="QVBoxLayout">
+      <item>
+       <widget class="QCheckBox" name="bufferConfiguracion">
+        <property name="font">
+         <font>
+          <family>Montserrat Medium</family>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">
+
+#bufferConfiguracion::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#bufferConfiguracion::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#bufferConfiguracion::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#bufferConfiguracion::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#bufferConfiguracion::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#bufferConfiguracion {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}
+</string>
+        </property>
+        <property name="text">
+         <string>Mostrar buffer y configuraciones avanzadas </string>
+        </property>
+       </widget>
+      </item>
       <item>
        <widget class="QLabel" name="lblSoundcardDevice">
         <property name="font">
@@ -69,7 +128,7 @@ QGroupBox::title {
          <string notr="true">color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
-         <string>Device</string>
+         <string>Dispositivo</string>
         </property>
        </widget>
       </item>
@@ -96,15 +155,14 @@ QGroupBox::title {
          <bool>false</bool>
         </property>
         <property name="styleSheet">
-         <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
+         <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
         </property>
        </widget>
       </item>
@@ -146,7 +204,7 @@ font-color: rgb(0,0,0);
             <string notr="true">color: rgb(255, 255, 255);</string>
            </property>
            <property name="text">
-            <string>Input Channel Mapping</string>
+            <string>Asignación de canales de entrada</string>
            </property>
           </widget>
          </item>
@@ -215,30 +273,28 @@ color: rgb(255, 255, 255);
              <item>
               <widget class="QComboBox" name="cbxLInChan">
                <property name="styleSheet">
-                <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
+                <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QComboBox" name="cbxRInChan">
                <property name="styleSheet">
-                <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
+                <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
                </property>
               </widget>
              </item>
@@ -257,7 +313,7 @@ font-color: rgb(0,0,0);
             <string notr="true">color: rgb(255, 255, 255);</string>
            </property>
            <property name="text">
-            <string>Output Channel Mapping</string>
+            <string>Asignación de canales de salida</string>
            </property>
           </widget>
          </item>
@@ -326,30 +382,28 @@ color: rgb(255, 255, 255);
              <item>
               <widget class="QComboBox" name="cbxLOutChan">
                <property name="styleSheet">
-                <string notr="true">QComboBox{
-background-color: rgb(15, 15, 15);
-border-color: rgb(25,25,25);
-color: white;
-}
+                <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(250,250,250);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QComboBox" name="cbxROutChan">
                <property name="styleSheet">
-                <string notr="true">QComboBox{
-background-color: rgb(15, 15, 15);
-border-color: rgb(25,25,25);
-color: white;
-}
+                <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(250,250,250);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
                </property>
               </widget>
              </item>
@@ -359,6 +413,206 @@ font-color: rgb(250,250,250);
          </item>
         </layout>
        </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="butDriverSetup">
+        <property name="font">
+         <font>
+          <family>Noto Sans</family>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+        </property>
+        <property name="text">
+         <string>Configuración de driver de audio</string>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="audiochannellayout">
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item alignment="Qt::AlignRight|Qt::AlignVCenter">
+         <widget class="QLabel" name="lblAudioChannels">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Canales de Audio</string>
+          </property>
+         </widget>
+        </item>
+        <item alignment="Qt::AlignVCenter">
+         <widget class="QComboBox" name="cbxAudioChannels">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item alignment="Qt::AlignRight">
+         <widget class="QLabel" name="lblAudioQuality">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Calidad de Audio</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cbxAudioQuality">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="topMargin">
+         <number>20</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="edtNewClientLevel">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblNewClientLevel">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Vol como Musico</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chbGUIDesignFancy">
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Color de Fondo</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chbDisplayChannelLevels">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="font">
+           <font>
+            <family>Noto Sans</family>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string>Vúmetro</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblPercentUnit">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(40, 40, 40);
+border-color: rgb(0, 0, 0);
+color: rgb(255, 255, 255);
+ border-image:  url(:/png/main/res/fondoo.png);</string>
+          </property>
+          <property name="text">
+           <string>%</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <spacer>
@@ -373,131 +627,6 @@ font-color: rgb(250,250,250);
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QCheckBox" name="chbEnableOPUS64">
-        <property name="font">
-         <font>
-          <family>Noto Sans</family>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-        </property>
-        <property name="text">
-         <string>Enable Small Network Buffers</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="grbSoundCrdBufDelay">
-        <property name="font">
-         <font>
-          <family>Noto Sans</family>
-         </font>
-        </property>
-        <property name="title">
-         <string>Buffer Delay</string>
-        </property>
-        <layout class="QVBoxLayout">
-         <item>
-          <widget class="QRadioButton" name="rbtBufferDelayPreferred">
-           <property name="font">
-            <font>
-             <family>Noto Sans</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-           </property>
-           <property name="text">
-            <string>(preferred)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="rbtBufferDelayDefault">
-           <property name="font">
-            <font>
-             <family>Noto Sans</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-           </property>
-           <property name="text">
-            <string>(default)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QRadioButton" name="rbtBufferDelaySafe">
-           <property name="font">
-            <font>
-             <family>Noto Sans</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-           </property>
-           <property name="text">
-            <string>(safe)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="butDriverSetup">
-           <property name="font">
-            <font>
-             <family>Noto Sans</family>
-            </font>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-           </property>
-           <property name="text">
-            <string>Driver Setup</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="bufferConfiguracion">
-        <property name="font">
-         <font>
-          <family>Noto Sans</family>
-         </font>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-        </property>
-        <property name="text">
-         <string>Mostrar Buffer y Configuraciones Avanzadas </string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -511,6 +640,7 @@ color: rgb(255, 255, 255);
      <property name="styleSheet">
       <string notr="true">QGroupBox{
     border: 1px solid rgb(120,120,120);
+	border-radius: 10;
     margin-top: 0.5em;
     color: white;
 }
@@ -528,14 +658,47 @@ QGroupBox::title {
        <widget class="QCheckBox" name="chbAutoJitBuf">
         <property name="font">
          <font>
-          <family>Noto Sans</family>
+          <family>Montserrat Medium</family>
+          <pointsize>8</pointsize>
+          <weight>75</weight>
+          <italic>false</italic>
+          <bold>true</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+         <string notr="true">
+
+#chbAutoJitBuf::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#chbAutoJitBuf::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#chbAutoJitBuf::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#chbAutoJitBuf::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#chbAutoJitBuf::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#chbAutoJitBuf {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}
+</string>
         </property>
         <property name="text">
          <string>Auto</string>
@@ -612,7 +775,7 @@ color: rgb(255, 255, 255);
          <widget class="QLabel" name="lblNetBuf">
           <property name="minimumSize">
            <size>
-            <width>50</width>
+            <width>70</width>
             <height>0</height>
            </size>
           </property>
@@ -628,7 +791,7 @@ color: rgb(255, 255, 255);
  border-image:  url(:/png/main/res/fondoo.png);</string>
           </property>
           <property name="text">
-           <string>Size</string>
+           <string>Tamaño</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -642,7 +805,7 @@ color: rgb(255, 255, 255);
          <widget class="QLabel" name="lblNetBufServer">
           <property name="minimumSize">
            <size>
-            <width>50</width>
+            <width>70</width>
             <height>0</height>
            </size>
           </property>
@@ -658,7 +821,7 @@ color: rgb(255, 255, 255);
  border-image:  url(:/png/main/res/fondoo.png);</string>
           </property>
           <property name="text">
-           <string>Size</string>
+           <string>Tamaño</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignCenter</set>
@@ -692,7 +855,8 @@ color: rgb(255, 255, 255);
          <widget class="QSlider" name="sldNetBuf">
           <property name="styleSheet">
            <string notr="true">QSlider::handle{
-background-color:rgb(13,204,135);
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
 color: rgb(255, 255, 255);
 }</string>
           </property>
@@ -727,7 +891,8 @@ color: rgb(255, 255, 255);
          <widget class="QSlider" name="sldNetBufServer">
           <property name="styleSheet">
            <string notr="true">QSlider::handle{
-background-color:rgb(13,204,135);
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
 color: rgb(255, 255, 255);
 }</string>
           </property>
@@ -815,6 +980,7 @@ color: rgb(255, 255, 255);
      <property name="styleSheet">
       <string notr="true">QGroupBox{
     border: 1px solid rgb(120,120,120);
+	border-radius: 10;
     margin-top: 0.5em;
     color: white;
 }
@@ -828,168 +994,6 @@ QGroupBox::title {
       <string>Configuración Avanzada</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLabel" name="lblAudioChannels">
-            <property name="font">
-             <font>
-              <family>Noto Sans</family>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Canales de Audio</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="lblAudioQuality">
-            <property name="font">
-             <font>
-              <family>Noto Sans</family>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Calidad de Audio</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="lblNewClientLevel">
-            <property name="font">
-             <font>
-              <family>Noto Sans</family>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">color: rgb(255, 255, 255);</string>
-            </property>
-            <property name="text">
-             <string>Vol como Musico</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QComboBox" name="cbxAudioChannels">
-            <property name="font">
-             <font>
-              <family>Noto Sans</family>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
-
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="cbxAudioQuality">
-            <property name="font">
-             <font>
-              <family>Noto Sans</family>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
-
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLineEdit" name="edtNewClientLevel">
-              <property name="font">
-               <font>
-                <family>Noto Sans</family>
-               </font>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: rgb(0, 0, 0); 
-background: rgb(255, 255, 255); 
-selection-background-color: rgb(0,0,0);</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="lblPercentUnit">
-              <property name="styleSheet">
-               <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
-              </property>
-              <property name="text">
-               <string>%</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="boxCheckNoUso">
-        <item>
-         <widget class="QCheckBox" name="chbGUIDesignFancy">
-          <property name="font">
-           <font>
-            <family>Noto Sans</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="text">
-           <string>Color de Fondo</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="chbDisplayChannelLevels">
-          <property name="font">
-           <font>
-            <family>Noto Sans</family>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
-          </property>
-          <property name="text">
-           <string>Vúmetro</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
       <item>
        <layout class="QHBoxLayout">
         <item>
@@ -1015,15 +1019,14 @@ color: rgb(255, 255, 255);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">QComboBox{
-background-color: rgb(255, 255, 255);
-border-color: rgb(25,25,25);
-color: black;
-}
+           <string notr="true">background-color: rgb(7, 45, 59);
 
-QComboBox::down-arrow{
-font-color: rgb(0,0,0);
-}</string>
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
           </property>
          </widget>
         </item>
@@ -1037,20 +1040,159 @@ font-color: rgb(0,0,0);
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+        </property>
        </widget>
       </item>
       <item>
-       <spacer>
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+       <widget class="QGroupBox" name="grbSoundCrdBufDelay">
+        <property name="font">
+         <font>
+          <family>Noto Sans</family>
+         </font>
         </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>201</width>
-          <height>21</height>
-         </size>
+        <property name="styleSheet">
+         <string notr="true">QGroupBox{
+    border: 1px solid rgb(120,120,120,0);
+	border-radius: 10;
+    margin-top: 0.5em;
+    color: white;
+}
+
+QGroupBox::title {
+    top: -6px;
+    left: 10px;
+}</string>
         </property>
-       </spacer>
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QVBoxLayout">
+         <item>
+          <widget class="QCheckBox" name="chbEnableOPUS64">
+           <property name="font">
+            <font>
+             <family>Montserrat Medium</family>
+             <pointsize>8</pointsize>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">#chbEnableOPUS64::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#chbEnableOPUS64::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#chbEnableOPUS64::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#chbEnableOPUS64::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#chbEnableOPUS64::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#chbEnableOPUS64 {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}
+</string>
+           </property>
+           <property name="text">
+            <string>Habilitar buffer de red pequeño</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rbtBufferDelayPreferred">
+           <property name="font">
+            <font>
+             <family>Noto Sans</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+           </property>
+           <property name="text">
+            <string>(preferred)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rbtBufferDelayDefault">
+           <property name="font">
+            <font>
+             <family>Noto Sans</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+           </property>
+           <property name="text">
+            <string>(default)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QRadioButton" name="rbtBufferDelaySafe">
+           <property name="font">
+            <font>
+             <family>Noto Sans</family>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+           </property>
+           <property name="text">
+            <string>(safe)</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <layout class="QHBoxLayout">
@@ -1062,21 +1204,26 @@ font-color: rgb(0,0,0);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
+           <string notr="true">
 color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+</string>
           </property>
           <property name="text">
-           <string>Audio Stream Rate</string>
+           <string>Tasa de transmisión</string>
           </property>
          </widget>
         </item>
         <item>
          <widget class="QLabel" name="lblUpstreamValue">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="minimumSize">
            <size>
-            <width>0</width>
+            <width>50</width>
             <height>20</height>
            </size>
           </property>
@@ -1086,10 +1233,14 @@ color: rgb(255, 255, 255);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+           <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
           </property>
           <property name="text">
            <string>val</string>
@@ -1108,13 +1259,12 @@ color: rgb(255, 255, 255);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
+           <string notr="true">
 color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+</string>
           </property>
           <property name="text">
-           <string>Ping Time</string>
+           <string>Tiempo de ping</string>
           </property>
          </widget>
         </item>
@@ -1138,10 +1288,14 @@ color: rgb(255, 255, 255);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+           <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
           </property>
           <property name="text">
            <string>val</string>
@@ -1160,13 +1314,11 @@ color: rgb(255, 255, 255);
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+           <string notr="true">color: rgb(255, 255, 255);
+</string>
           </property>
           <property name="text">
-           <string>Overall Delay</string>
+           <string>Delay total</string>
           </property>
          </widget>
         </item>
@@ -1195,10 +1347,14 @@ color: rgb(255, 255, 255);
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+             <string notr="true">background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
             </property>
             <property name="text">
              <string>val</string>
@@ -1255,18 +1411,11 @@ color: rgb(255, 255, 255);
   <tabstop>cbxRInChan</tabstop>
   <tabstop>cbxLOutChan</tabstop>
   <tabstop>cbxROutChan</tabstop>
-  <tabstop>chbEnableOPUS64</tabstop>
   <tabstop>rbtBufferDelayPreferred</tabstop>
   <tabstop>rbtBufferDelayDefault</tabstop>
-  <tabstop>butDriverSetup</tabstop>
   <tabstop>chbAutoJitBuf</tabstop>
   <tabstop>sldNetBuf</tabstop>
   <tabstop>sldNetBufServer</tabstop>
-  <tabstop>cbxAudioChannels</tabstop>
-  <tabstop>cbxAudioQuality</tabstop>
-  <tabstop>edtNewClientLevel</tabstop>
-  <tabstop>chbGUIDesignFancy</tabstop>
-  <tabstop>chbDisplayChannelLevels</tabstop>
   <tabstop>cbxCentServAddrType</tabstop>
   <tabstop>edtCentralServerAddress</tabstop>
  </tabstops>

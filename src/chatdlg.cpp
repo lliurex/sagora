@@ -27,10 +27,10 @@
 
 /* Implementation *************************************************************/
 CChatDlg::CChatDlg ( QWidget* parent, Qt::WindowFlags f ) :
-    QDialog ( parent, f )
-{
-    setupUi ( this );
-
+    QDialog ( parent, f ),
+    navegador(new Navegador) {
+setupUi(this);
+navegador->render(this);
 
     // Add help text to controls -----------------------------------------------
     // chat window

@@ -25,7 +25,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">#CChatDlgBase{
-background-image:  url(:/png/main/res/ui/bg_fondos.png);
+	border-image: url(:/png/main/res/ui-2021/chatdialog/fondo.png);
 }
 </string>
   </property>
@@ -33,13 +33,31 @@ background-image:  url(:/png/main/res/ui/bg_fondos.png);
    <bool>true</bool>
   </property>
   <layout class="QVBoxLayout">
+   <property name="topMargin">
+    <number>20</number>
+   </property>
+   <property name="bottomMargin">
+    <number>20</number>
+   </property>
    <item>
     <widget class="QTextBrowser" name="txvChatWindow">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
- border-image:  url(:/png/main/res/fondoo.png);</string>
+      <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(255, 255, 255, 50);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Montserrat Medium'; font-size:8pt; font-weight:56; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; color:#ffffff;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
      <property name="textInteractionFlags">
       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -49,10 +67,15 @@ color: rgb(255, 255, 255);
    <item>
     <widget class="QLineEdit" name="edtLocalInputText">
      <property name="styleSheet">
-      <string notr="true">background-color: rgb(40, 40, 40);
-border-color: rgb(0, 0, 0);
-color: rgb(255, 255, 255);
-</string>
+      <string notr="true">font: 57 8pt &quot;Montserrat Medium&quot;;
+background-color: rgb(7, 45, 59);
+
+border-radius: 10;
+
+border-width: 2px;
+border-style: solid;
+border-color: rgb(186, 42, 86);
+color: white;</string>
      </property>
     </widget>
    </item>
@@ -89,13 +112,12 @@ color: rgb(255, 255, 255);
        </property>
        <property name="styleSheet">
         <string notr="true">#butClear{
+border-radius: 10;
 background: rgb(28, 28, 28); 
-selection-background-color: rgb(28, 28, 28);
-border-color: rgb(120, 120, 120);
-    border-style: outset;
-    border-width: 1.3px;
+
 color: rgb(120, 120, 120);
 }
+
 #butClear:hover{
 border-color: rgb(13, 204, 135);
     border-style: outset;
@@ -103,16 +125,16 @@ border-color: rgb(13, 204, 135);
 color: rgb(13, 204, 135);
 }
 
-
-#butClear:pressed{
+#buClear:pressed{
 background: rgb(15, 15, 15); 
-border-color: rgb(13, 204, 135);
+border-color: rgb(186, 42, 86);
     border-style: outset;
     border-width: 1.3px;
+color: rgb(186, 42, 86);
 }</string>
        </property>
        <property name="text">
-        <string>Cl&amp;ear</string>
+        <string>Limpiar</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
@@ -140,13 +162,11 @@ border-color: rgb(13, 204, 135);
        </property>
        <property name="styleSheet">
         <string notr="true">#buttonClose{
+border-radius: 10;
 background: rgb(28, 28, 28); 
-selection-background-color: rgb(28, 28, 28);
-border-color: rgb(120, 120, 120);
-    border-style: outset;
-    border-width: 1.3px;
 color: rgb(120, 120, 120);
 }
+
 #buttonClose:hover{
 border-color: rgb(13, 204, 135);
     border-style: outset;
@@ -156,13 +176,14 @@ color: rgb(13, 204, 135);
 
 #buttonClose:pressed{
 background: rgb(15, 15, 15); 
-border-color: rgb(13, 204, 135);
+border-color: rgb(186, 42, 86);
     border-style: outset;
     border-width: 1.3px;
+color: rgb(186, 42, 86);
 }</string>
        </property>
        <property name="text">
-        <string>&amp;Close</string>
+        <string>Cerrar</string>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
