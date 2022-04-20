@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Sagora
+Exec=usr/bin/Sagora %F
+Icon=Sagora
+Terminal=true
+Categories=Audio;

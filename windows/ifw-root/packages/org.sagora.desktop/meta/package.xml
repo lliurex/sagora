@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+	<DisplayName>Sagora</DisplayName>
+	<Description>Install Sagora</Description>
+	<Version>1.2.0-1</Version>
+	<ReleaseDate>2021-06-30</ReleaseDate>
+	<Licenses>
+		<License name="GNU Public License" file="COPYING" />
+	</Licenses>
+	<Default>script</Default>
+	<Script>installscript.qs</Script>
+</Package>

@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>efectosdlg</class>
+ <widget class="QDialog" name="efectosdlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>564</width>
+    <height>469</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Panel de Efectos</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <activeon>:/png/main/res/fronticon.png</activeon>
+   </iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">#efectosdlg{
+border-image: url(:/png/main/res/ui-2021/efectosdialog/fondo.png);
+}</string>
+  </property>
+  <widget class="QCheckBox" name="chbTremolo">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>121</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;El efecto de trémolo es una oscilación de amplitud de nuestra señal. Cambiando el parámetro Rate, cambiamos la frecuencia de esa oscilación y con Depth cambiamos la profundidad.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+
+#chbTremolo::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#chbTremolo::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#chbTremolo::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#chbTremolo::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#chbTremolo::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#chbTremolo {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}</string>
+   </property>
+   <property name="text">
+    <string>Trémolo</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chbRing">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Un Ring Modulator es un efecto donde multiplicamos la señal de audio entrante usando un oscilador. Con el parámetro Rate gestionamos la frecuencia de esa oscilación y con Blend manejamos la mezcla entre el audio original y el modulado.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+
+#chbRing::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#chbRing::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#chbRing::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#chbRing::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#chbRing::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#chbRing {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}</string>
+   </property>
+   <property name="text">
+    <string>Ring Modulator</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="chbDelay">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>350</y>
+     <width>131</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;El efecto Delay produce una réplica de la señal entrante pero desplazada en el tiempo, lo que produce un efecto de eco. Con Wet agregamos porciones de la señal replicada, con Dry agregamos porciones de la señal original, y con FB agregamos feedback, o retroalimentación, o sea reingresamos una porción de lo que esta saliendo del efecto a la entrada nuevamente. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+
+#chbDelay::indicator {   
+width:          32px;
+                                             height:         32px; }                
+
+#chbDelay::indicator:unchecked {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_borde_p.png);
+}
+                     
+#chbDelay::indicator:pressed {
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_azul_chico.png);
+}
+              
+#chbDelay::indicator:unchecked:hover {
+ 
+	
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                 
+#chbDelay::indicator:checked {
+  	 
+	image: url(:/png/main/res/ui-2021/clientsettingsdialog/check_rosa_chico.png);
+}
+                   
+#chbDelay {              
+font: 57 8pt &quot;Montserrat Medium&quot;;
+color:          rgb(220, 220, 220);
+                                              font:           bold;
+}</string>
+   </property>
+   <property name="text">
+    <string>Delay</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>50</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrTremRate">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>5</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>90</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Rate</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>50</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrTremDeph">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>5</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>90</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_2">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Depth</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>180</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_3">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrRingBlend">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>90</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_3">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Blend</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>180</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrRingRate">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>0</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>90</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_4">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Rate</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>290</x>
+     <y>310</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_5">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrDelayDry">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>5</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>50</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_5">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Dry</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_6">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>310</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <property name="leftMargin">
+     <number>10</number>
+    </property>
+    <property name="rightMargin">
+     <number>10</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrDelayWet">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>5</number>
+      </property>
+      <property name="maximum">
+       <number>100</number>
+      </property>
+      <property name="value">
+       <number>90</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_6">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>Wet</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="verticalLayoutWidget_7">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>310</y>
+     <width>101</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QSlider" name="SldrDelayFeedback">
+      <property name="styleSheet">
+       <string notr="true">QSlider::handle{
+	border-image: url(:/png/main/res/ui-2021/clientdialog/fader_sala_blanco.png);
+
+color: rgb(255, 255, 255);
+}</string>
+      </property>
+      <property name="minimum">
+       <number>30</number>
+      </property>
+      <property name="maximum">
+       <number>50</number>
+      </property>
+      <property name="value">
+       <number>50</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="tickPosition">
+       <enum>QSlider::TicksBothSides</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
+     <widget class="QLabel" name="label_7">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>55</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(255, 255, 255);
+font: 57 8pt &quot;Montserrat Medium&quot;;</string>
+      </property>
+      <property name="text">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;FB&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

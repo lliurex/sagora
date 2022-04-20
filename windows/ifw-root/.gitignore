@@ -1,0 +1,8 @@
+# build output goes here
+packages/org.sagora.desktop/data/
+
+# copied from source directory
+packages/org.sagora.desktop/meta/COPYING
+
+# resulting installer 
+SagoraInstaller.exe
