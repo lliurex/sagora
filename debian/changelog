@@ -1,3 +1,9 @@
+sagora (1.2lliurex23) jammy; urgency=medium
+
+  * Jammy release
+
+ -- Juanma1980 <juanma1980@gmail.com>  Wed, 06 Sep 2023 11:19:06 +0200
+
 sagora (1.2) focal; urgency=medium
 
   * Upgrade to 1.2
